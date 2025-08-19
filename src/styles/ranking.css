@@ -1,0 +1,85 @@
+.userRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 12px 16px;
+  margin: 8px 0;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  transition: transform 0.3s ease, background-color 0.3s ease;
+  position: relative;
+}
+
+.userRow:hover {
+  transform: scale(1.01);
+  background: #fdfdfd;
+}
+
+.userRow.updated-up {
+    background-color: #d1ffd6;
+}
+
+.userRow.updated-down {
+    background-color: #ffd6d6;
+}
+
+.userRow.updated-up,
+.userRow.updated-down {
+    transition: background-color 0.5s ease;
+}
+
+.userRow.animate-move {
+  transition: transform 0.5s ease;
+}
+
+.username {
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: #333;
+  flex: 1;
+}
+
+.userPoints {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #444;
+  margin: 0 20px;
+  min-width: 40px;
+  text-align: center;
+}
+
+.buttons button {
+  margin: 0 4px;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.2s ease;
+}
+
+.buttons button:first-child {
+  background: #4caf50;
+  color: white;
+}
+
+.buttons button:first-child:hover {
+  background: #45a049;
+}
+
+.buttons button:last-child {
+  background: #f44336;
+  color: white;
+}
+
+.buttons button:last-child:hover {
+  background: #e53935;
+}
+
+.rankingTable {
+    list-style: none; /* remove bullets */
+    padding: 0;       /* remove default padding */
+    margin: 0;        /* remove default margin */
+}
