@@ -1,10 +1,5 @@
-import {supabaseClient} from "../../supabase";
+import {getRankingConfiguration} from "@/persistence/ranking-persistence";
 
-export async function getRanking(id) {
-    const { data, error } = await supabaseClient
-        .from('ranking')
-        .select()
-        .eq('ranking_id', id)
-        .single();
-    return data;
+export async function getRanking() {
+    return getRankingConfiguration();
 }
