@@ -1,0 +1,63 @@
+.situation-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.situation-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+}
+
+.situation-card-content {
+  flex: 1;
+  padding-right: 1rem;
+}
+
+.situation-card-header h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.situation-card-body {
+  margin: 0.4rem 0 0.8rem 0;
+  color: #374151; /* medium gray */
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+.situation-card-footer {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.situation-card-image img {
+  width: 90px;
+  height: 90px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.vote-button {
+  background: #2563eb; /* blue */
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.4rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.vote-button:hover {
+  background: #1e40af; /* darker blue */
+}

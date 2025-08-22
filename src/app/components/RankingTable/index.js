@@ -1,26 +1,11 @@
 "use client"
 
 import "./rankingtable.css"
-import { useState } from "react"
 import { sortUsers } from "../../utils/sortUsers"
 import Link from "next/link"
 import UserRow from "../UserRow"
 
-function RankingTable() {
-  const [users, setUsers] = useState(
-    sortUsers([
-      { id: 1, name: "Rome", points: 1250, avatar: "/avatar.png" },
-      { id: 2, name: "Nico", points: 1180, avatar: "/avatar.png" },
-      { id: 3, name: "Juani", points: 1120, avatar: "/avatar.png" },
-      { id: 4, name: "Pepo", points: 1050, avatar: "/avatar.png" },
-      { id: 5, name: "Conra", points: 980, avatar: "/avatar.png" },
-      { id: 6, name: "Ini", points: 150, avatar: "/avatar.png" },
-      { id: 7, name: "Jose", points: 1180, avatar: "/avatar.png" },
-      { id: 8, name: "Pipo", points: 1120, avatar: "/avatar.png" },
-      { id: 9, name: "Gus", points: 1050, avatar: "/avatar.png" },
-      { id: 10, name: "Fede", points: 980, avatar: "/avatar.png" },
-    ]),
-  )
+function RankingTable({users, setUsers}) {
 
   function updatePoints(id, delta) {
     setUsers((prevUsers) =>

@@ -10,8 +10,8 @@ function Navbar() {
       <div className="header-content">
         <div className="logo">
           <Link href="/" className="nav-link">
-            <span className="logo-icon">♦</span>
-            <span className="logo-text">SubeApp</span>
+          <span className="logo-icon">♦</span>
+          <span className="logo-text">SubeApp</span>
           </Link>
         </div>
         <nav className="nav-links">

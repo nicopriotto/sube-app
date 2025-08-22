@@ -1,9 +1,9 @@
-import RankingTable from "./components/RankingTable"
+import Home from "./components/Home"
 
 export default function Page() {
   return (
     <div className="app-container">
-      <RankingTable />
+      <Home />
     </div>
   )
 }

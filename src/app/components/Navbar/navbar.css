@@ -16,13 +16,18 @@
 .logo {
   display: flex;
   align-items: center;
-  font-weight: 700;
-  font-size: 18px;
 }
 
 .logo-icon {
   color: #2563eb;
   margin-right: 6px;
+  font-size: 24px;
+}
+
+.logo-text {
+  font-size: 24px;
+  font-weight: 600;
+  color: #111827;
 }
 
 .nav-links {
