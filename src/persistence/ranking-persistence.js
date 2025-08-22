@@ -1,12 +1,15 @@
 import {supabaseClient} from "../../supabase";
 
 export class RankingPersistence {
-    static async createRankingConfiguration(ranking_name, ranking_password) {
+    static async createRanking(ranking_name, ranking_password, type, defaultTeamLimit, endsAt) {
         const { data, error } = await supabaseClient
             .from('ranking')
             .insert({
                 ranking_name,
-                ranking_password
+                ranking_password,
+                type,
+                defaultTeamLimit,
+                endsAt
             });
         return data;
     }

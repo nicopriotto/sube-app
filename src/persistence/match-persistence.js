@@ -43,11 +43,24 @@ export class MatchPersistence {
         return data[0];
     }
 
+    //@todo: ver si nos quedamos con participates o result
     static async getParticipatesMatches(match_id) {
         const { data, error } = await supabaseClient
             .from('participates_match')
             .select('team (*, team_member(*))')
             .eq('match_id', match_id);
+        return data;
+    }
+
+    static async setMatchResult(match_id, team_id, position, points) {
+        const {data, error} = await supabaseClient
+            .from('match_result')
+            .update({
+              position,
+              points
+            })
+            .eq('match_id', match_id)
+            .eq('team_id', team_id);
         return data;
     }
 }
