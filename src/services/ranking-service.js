@@ -1,5 +1,7 @@
-import {getRankingConfiguration} from "@/persistence/ranking-persistence";
+import {RankingPersistence} from "@/persistence/ranking-persistence";
 
-export async function getRanking() {
-    return getRankingConfiguration();
+export class RankingService {
+    static async getRankingConfiguration() {
+        return RankingPersistence.getRankingConfiguration();
+    }
 }
