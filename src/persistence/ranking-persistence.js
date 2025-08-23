@@ -1,6 +1,11 @@
 import {supabaseClient} from "../../supabase";
 
 export class RankingPersistence {
+    static RankingTypes = {
+        VOTE: 'vote',
+        ELO: 'elo',
+        DEFAULT: 'default'
+    }
     static async createRanking(ranking_name, ranking_password, type, defaultTeamLimit, endsAt) {
         const { data, error } = await supabaseClient
             .from('ranking')

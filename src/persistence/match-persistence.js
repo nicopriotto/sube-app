@@ -15,7 +15,7 @@ export class MatchPersistence {
 
     static async joinMatch(match_id, team_id) {
         const { data, error } = await supabaseClient
-            .from('participates_match')
+            .from('match_result')
             .insert({
                 match_id,
                 team_id
@@ -23,11 +23,15 @@ export class MatchPersistence {
         return data;
     }
 
-    static async getMatchList(ranking_id, page, pageSize) {
-        const { data, error } = await supabaseClient
+    static async getMatchList(ranking_id, page, pageSize, ended) {
+        let query = supabaseClient
             .from('match')
             .select()
-            .eq('ranking_id', ranking_id)
+            .eq('ranking_id', ranking_id);
+        if (ended !== undefined) {
+            query.eq('ended', ended)
+        }
+        const { data, error } = await query
             .order('match_id', { ascending: false })
             .range(pageSize * (page - 1), page * pageSize + 1);
 
@@ -43,10 +47,9 @@ export class MatchPersistence {
         return data[0];
     }
 
-    //@todo: ver si nos quedamos con participates o result
-    static async getParticipatesMatches(match_id) {
+    static async getMatchParticipants(match_id) {
         const { data, error } = await supabaseClient
-            .from('participates_match')
+            .from('match_result')
             .select('team (*, team_member(*))')
             .eq('match_id', match_id);
         return data;
@@ -63,5 +66,6 @@ export class MatchPersistence {
             .eq('team_id', team_id);
         return data;
     }
+
 }
 
