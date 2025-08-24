@@ -14,6 +14,10 @@ export class RankingService {
         return RankingPersistence.createRanking(ranking_name, ranking_password, type, defaultTeamLimit, endsAt);
     }
 
+    static async getRankingsScore(ranking_id, page, pageSize) {
+        return RankingPersistence.getRankingsScore(ranking_id, page, pageSize);
+    }
+
     static async vote(match_id, team_member_id, points) {
         const match = await MatchPersistence.getMatch(match_id)
         const [rankingConfiguration, teamCount, votes, participants] = Promise.all([

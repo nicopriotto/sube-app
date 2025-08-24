@@ -24,7 +24,7 @@ export class TeamPersistence {
     static async getRankingTeams(ranking_id) {
         const { data, error } = await supabaseClient
             .from('team')
-            .select()
+            .select('*, team_member(*)')
             .eq('ranking_id', ranking_id);
         return data;
     }

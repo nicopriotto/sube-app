@@ -9,8 +9,9 @@ export class MatchPersistence {
                 team_limit,
                 title,
                 description
-            });
-        return data;
+            })
+            .select();
+        return data[0];
     }
 
     static async joinMatch(match_id, team_id) {
@@ -19,8 +20,9 @@ export class MatchPersistence {
             .insert({
                 match_id,
                 team_id
-            });
-        return data;
+            })
+            .select();
+        return data[0];
     }
 
     static async getMatchList(ranking_id, page, pageSize, ended) {
