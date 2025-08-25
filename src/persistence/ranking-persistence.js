@@ -6,16 +6,19 @@ export class RankingPersistence {
         ELO: 'elo',
         DEFAULT: 'default'
     }
-    static async createRanking(ranking_name, ranking_password, type, defaultTeamLimit, endsAt) {
+    static async createRanking(ranking_name, ranking_password, type, default_team_limit, ends_at) {
         const { data, error } = await supabaseClient
             .from('ranking')
             .insert({
                 ranking_name,
                 ranking_password,
                 type,
-                defaultTeamLimit,
-                endsAt
+                default_team_limit,
+                ends_at
             });
+        if (error) {
+            throw error;
+        }
         return data;
     }
 

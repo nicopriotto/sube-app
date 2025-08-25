@@ -24,3 +24,75 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.app-form-background {
+    max-width: 600px;
+    margin: 60px auto;
+    background: #ffffff;
+    padding: 32px;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+}
+
+.app-form-background h2 {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 24px;
+    color: #111827;
+    text-align: center;
+}
+
+.app-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.app-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.app-form-group label {
+    font-size: 16px;
+    font-weight: 700;
+    color: #374151;
+}
+
+.app-form-group input,
+.app-form-group textarea,
+.app-form-group select {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 14px;
+    background: #f9fafb;
+    transition: border 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.app-form-group input:focus,
+.app-form-group textarea:focus,
+.app-form-group select:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+    outline: none;
+    background: #ffffff;
+}
+
+.app-form-background button {
+    background: #2563eb;
+    color: #ffffff;
+    padding: 12px 18px;
+    font-size: 15px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    align-self: flex-end;
+    transition: background 0.2s ease-in-out;
+}
+
+.app-form-background button:hover {
+    background: #1e4fc9;
+}

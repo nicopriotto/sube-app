@@ -4,6 +4,9 @@ import {TeamPersistence} from "@/persistence/team-persistence";
 import {VotingPersistence} from "@/persistence/voting-persistence";
 
 export class RankingService {
+    static getRankingTypes() {
+        return RankingPersistence.RankingTypes;
+    }
     static async getRankingConfigurationById(ranking_id) {
         return RankingPersistence.getRankingConfigurationById(ranking_id);
     }

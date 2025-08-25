@@ -18,7 +18,7 @@ function Navbar() {
           <Link href="/" className="nav-link">
             Inicio
           </Link>
-          <Link href="/" className="nav-link">
+          <Link href="/createRanking" className="nav-link">
             Crear Ranking
           </Link>
           <Link href="/" className="nav-link">
