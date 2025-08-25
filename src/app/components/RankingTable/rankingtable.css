@@ -1,0 +1,59 @@
+.main-content {
+  display: flex;
+  justify-content: center;
+  padding: 20px 10px;
+}
+
+.ranking-card {
+  background: #fff;
+  border-radius: 12px;
+  padding-left: 10px;
+  padding-bottom: 50px;
+  max-width: 100%;
+  width: 100%;
+}
+
+.ranking-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.ranking-title {
+  font-size: 32px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.ranking-subtitle {
+  font-size: 20px;
+  color: #6b7280;
+  margin-top: 4px;
+}
+
+.propose-situation-btn {
+  background: #2563eb;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.2s ease-in-out;
+}
+
+.propose-situation-btn:hover {
+  background: #1e4fc9;
+}
+
+.rankingTable {
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.headerRow {
+  background: #eceeefae;
+  font-weight: 600;
+}
