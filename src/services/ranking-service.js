@@ -2,6 +2,7 @@ import {RankingPersistence} from "@/persistence/ranking-persistence";
 import {MatchPersistence} from "@/persistence/match-persistence";
 import {TeamPersistence} from "@/persistence/team-persistence";
 import {VotingPersistence} from "@/persistence/voting-persistence";
+import {TeamService} from "@/services/team-service";
 
 export class RankingService {
     static getRankingTypes() {
@@ -17,11 +18,19 @@ export class RankingService {
         return RankingPersistence.createRanking(ranking_name, ranking_password, type, defaultTeamLimit, endsAt);
     }
 
+    static async createRankingUser(ranking_id, ranking_user_name) {
+        const [user, ranking] = await Promise.all([RankingPersistence.createRankingUser(ranking_id, ranking_user_name), RankingPersistence.getRankingConfigurationById(ranking_id)]);
+        if (ranking && ranking.type === RankingPersistence.RankingTypes.VOTE) {
+            await TeamService.createTeam(ranking_id, ranking_user_name, 1, user.ranking_user_id)
+        }
+        return user;
+    }
+
     static async getRankingsScore(ranking_id, page, pageSize) {
         return RankingPersistence.getRankingsScore(ranking_id, page, pageSize);
     }
 
-    static async vote(match_id, team_member_id, points) {
+    static async vote(match_id, ranking_user_id, points) {
         const match = await MatchPersistence.getMatch(match_id)
         const [rankingConfiguration, teamCount, votes, participants] = Promise.all([
             RankingPersistence.getRankingConfigurationById(match.ranking_id),
@@ -41,11 +50,11 @@ export class RankingService {
             votes.forEach(vote => avg += vote.points);
             avg = Math.floor((avg + points) / votes.length + 1);
             await Promise.all([
-                VotingPersistence.voteMatchResult(match_id, team_member_id, points),
-                RankingPersistence.updateRankingScore(match.ranking_id, participants[0].team_members[0].team_member_id, avg)
+                VotingPersistence.voteMatchResult(match_id, ranking_user_id, points),
+                RankingPersistence.updateRankingScore(match.ranking_id, participants[0].ranking_users[0].ranking_user_id, avg)
             ])
         } else {
-            await VotingPersistence.voteMatchResult(match_id, team_member_id, points);
+            await VotingPersistence.voteMatchResult(match_id, ranking_user_id, points);
         }
     }
 }

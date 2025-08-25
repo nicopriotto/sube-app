@@ -12,19 +12,23 @@ export class TeamPersistence {
             .select();
         return data[0];
     }
-    static async createTeamMember(team_id,team_member_name) {
+
+    static async addTeamMember(team_id, ranking_user_id) {
+        const { error } = await supabaseClient
+            .from('ranking_user_team')
+            .insert(team_id, ranking_user_id);
+    }
+    static async getRankingTeamsWithMembers(ranking_id) {
         const { data, error } = await supabaseClient
-            .from('team_member')
-            .insert({
-                team_id,
-                team_member_name
-            });
+            .from('team')
+            .select('team_id, team_name, size, ranking_user_team(ranking_user(*))')
+            .eq('ranking_id', ranking_id);
         return data;
     }
     static async getRankingTeams(ranking_id) {
         const { data, error } = await supabaseClient
             .from('team')
-            .select('*, team_member(*)')
+            .select('*')
             .eq('ranking_id', ranking_id);
         return data;
     }
@@ -37,8 +41,8 @@ export class TeamPersistence {
     }
     static async getTeamMembers(team_id) {
         const { data, error } = await supabaseClient
-            .from('team_member')
-            .select()
+            .from('ranking_user_team')
+            .select('ranking_user(*)')
             .eq('team_id', team_id);
         return data;
     }

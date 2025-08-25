@@ -3,8 +3,6 @@ import {supabaseClient} from "../../supabase";
 export class RankingPersistence {
     static RankingTypes = {
         VOTE: 'vote',
-        ELO: 'elo',
-        DEFAULT: 'default'
     }
     static async createRanking(ranking_name, ranking_password, type, default_team_limit, ends_at) {
         const { data, error } = await supabaseClient
@@ -15,6 +13,30 @@ export class RankingPersistence {
                 type,
                 default_team_limit,
                 ends_at
+            })
+            .select();
+        if (error) {
+            throw error;
+        }
+        return data[0];
+    }
+
+    static async createRankingUser(ranking_id, ranking_user_name) {
+        const { data, error } = await supabaseClient
+            .from('ranking_user')
+            .insert({
+                ranking_id,
+                ranking_user_name
+            }).select();
+        return data[0];
+    }
+
+    static async joinRanking(ranking_id, ranking_user_id) {
+        const { data, error } = await supabaseClient
+            .from('ranking_score')
+            .insert({
+                ranking_id,
+                ranking_user_id,
             });
         if (error) {
             throw error;
@@ -42,26 +64,26 @@ export class RankingPersistence {
     static async getRankingsScore(ranking_id, page, pageSize) {
         const { data, error } = await supabaseClient
             .from('ranking_score')
-            .select()
+            .select('score, ranking_user(*)')
             .range(pageSize * (page - 1), page * pageSize + 1);
         return data;
     }
-    static async updateRankingScore(ranking_id, team_member_id, score) {
+    static async updateRankingScore(ranking_id, ranking_user_id, score) {
         const { data, error } = await supabaseClient
             .from('ranking_score')
-            .upsert({
+            .update({
                 ranking_id,
-                team_member_id,
+                ranking_user_id,
                 score
             });
         return data;
     }
-    static async getRankingScore(ranking_id, team_member_id) {
+    static async getRankingScore(ranking_id, ranking_user_id) {
         const { data, error } = await supabaseClient
             .from('ranking_score')
             .select('score')
             .eq('ranking_id', ranking_id)
-            .eq('team_member_id', team_member_id)
+            .eq('ranking_user_id', ranking_user_id)
             .single();
         return data[0].score;
     }

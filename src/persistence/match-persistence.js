@@ -52,7 +52,7 @@ export class MatchPersistence {
     static async getMatchParticipants(match_id) {
         const { data, error } = await supabaseClient
             .from('match_result')
-            .select('team (*, team_member(*))')
+            .select('team (team_id, team_name, size, ranking_user_team(ranking_user(*)))')
             .eq('match_id', match_id);
         return data;
     }
