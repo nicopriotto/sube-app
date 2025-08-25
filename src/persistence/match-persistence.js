@@ -22,6 +22,7 @@ export class MatchPersistence {
                 team_id
             })
             .select();
+        if (error) throw new Error(error.message);
         return data[0];
     }
 

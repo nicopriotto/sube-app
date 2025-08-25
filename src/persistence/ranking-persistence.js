@@ -68,6 +68,13 @@ export class RankingPersistence {
             .range(pageSize * (page - 1), page * pageSize + 1);
         return data;
     }
+    static async getRankingUsers(ranking_id) {
+        const { data, error } = await supabaseClient
+            .from('ranking_user')
+            .select()
+            .eq('ranking_id', ranking_id)
+        return data;
+    }
     static async updateRankingScore(ranking_id, ranking_user_id, score) {
         const { data, error } = await supabaseClient
             .from('ranking_score')

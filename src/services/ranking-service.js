@@ -51,7 +51,7 @@ export class RankingService {
             avg = Math.floor((avg + points) / votes.length + 1);
             await Promise.all([
                 VotingPersistence.voteMatchResult(match_id, ranking_user_id, points),
-                RankingPersistence.updateRankingScore(match.ranking_id, participants[0].ranking_users[0].ranking_user_id, avg)
+                RankingPersistence.updateRankingScore(match.ranking_id, participants[0].ranking_user[0].ranking_user_id, avg)
             ])
         } else {
             await VotingPersistence.voteMatchResult(match_id, ranking_user_id, points);
