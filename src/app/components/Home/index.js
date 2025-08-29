@@ -11,13 +11,13 @@ function Home() {
     {
       title: "Beach Cleanup",
       description: "Help clean the beach this weekend.",
-      user: "Alice",
+      users: ["Alice"],
       image: "/avatar.png"
     },
     {
       title: "Tree Planting",
       description: "Join us to plant trees in the park.",
-      user: "Bob",
+      users: ["Bob"],
       image: "/avatar.png"
     }
   ];
@@ -40,7 +40,7 @@ function Home() {
   return (
     <div className="home">
       <div className="ranking-section">
-        <RankingTable users={users} setUsers={setUsers} />
+        <RankingTable title={"Ranking gaga"} description={"Ranking de gagueadas 2025"} users={users} setUsers={setUsers} />
       </div>
       <div className="situations-section">
         <SituationFeed situations={situations}/>

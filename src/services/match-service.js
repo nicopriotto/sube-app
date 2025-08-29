@@ -35,7 +35,6 @@ export class MatchService {
 
     static async getMatchList(ranking_id, page, pageSize, ended){
         return (await MatchPersistence.getMatchList(ranking_id, page, pageSize, ended)).map(match => {
-            console.log(match);
             return {
                 id: match.match_id,
                 users: match.match_result.map(result => result.team?.team_name),

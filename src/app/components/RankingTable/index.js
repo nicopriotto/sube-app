@@ -5,7 +5,7 @@ import { sortUsers } from "../../utils/sortUsers"
 import Link from "next/link"
 import UserRow from "../UserRow"
 
-function RankingTable({users, setUsers}) {
+function RankingTable({title, description, users, setUsers}) {
 
   return (
     <main className="main-content">
@@ -14,8 +14,8 @@ function RankingTable({users, setUsers}) {
         {/* Header */}
         <div className="ranking-header">
           <div className="ranking-header-content">
-            <h1 className="ranking-title">Ranking Gaga</h1>
-            <p className="ranking-subtitle">Tabla de posiciones de gagueadas 2025</p>
+            <h1 className="ranking-title">{title}</h1>
+            <p className="ranking-subtitle">{description}</p>
           </div>
           <Link href="/situationForm" className="propose-situation-btn">
             Proponer Situación

@@ -4,7 +4,7 @@ export class RankingPersistence {
     static RankingTypes = {
         VOTE: 'vote',
     }
-    static async createRanking(ranking_name, ranking_password, type, default_team_limit, ends_at) {
+    static async createRanking(ranking_name, ranking_password, type, default_team_limit, ends_at, ranking_description) {
         const { data, error } = await supabaseClient
             .from('ranking')
             .insert({
@@ -12,7 +12,8 @@ export class RankingPersistence {
                 ranking_password,
                 type,
                 default_team_limit,
-                ends_at
+                ends_at,
+                ranking_description
             })
             .select();
         if (error) {
@@ -50,7 +51,7 @@ export class RankingPersistence {
             .select()
             .eq('ranking_id', id)
             .single();
-        return data[0];
+        return data;
     }
     static async getRankingConfiguration(ranking_name, ranking_password) {
         const { data, error } = await supabaseClient
@@ -59,13 +60,14 @@ export class RankingPersistence {
             .eq('ranking_name', ranking_name)
             .eq('ranking_password', ranking_password)
             .single();
-        return data[0];
+        return data;
     }
     static async getRankingsScore(ranking_id, page, pageSize) {
         const { data, error } = await supabaseClient
             .from('ranking_score')
             .select('score, ranking_user(*)')
-            .range(pageSize * (page - 1), page * pageSize + 1);
+            .range(pageSize * (page - 1), page * pageSize + 1)
+            .eq('ranking_id', ranking_id);
         return data;
     }
     static async getRankingUsers(ranking_id) {
@@ -92,7 +94,7 @@ export class RankingPersistence {
             .eq('ranking_id', ranking_id)
             .eq('ranking_user_id', ranking_user_id)
             .single();
-        return data[0].score;
+        return data.score;
     }
 }
 

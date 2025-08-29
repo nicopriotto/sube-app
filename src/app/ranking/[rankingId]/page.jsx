@@ -8,6 +8,10 @@ import {MatchService} from "@/services/match-service";
 
 export default function RankingPage({params}) {
     const { rankingId } =  useParams();
+
+    const [ranking, setRanking] = useState(null);
+    const [loading, setLoading] = useState(true);
+
     const [situations, setSituations] = useState([]);
     const [loadingSituations, setLoadingSituations] = useState(true);
     const [situationsError, setSituationsError] = useState(false);
@@ -20,6 +24,16 @@ export default function RankingPage({params}) {
     const [standingsPage, setStandingsPage] = useState(1)
     const standingsPageSize = 10;
     useEffect(() => {
+        async function fetchRanking() {
+            try {
+                setRanking(await RankingService.getRankingConfigurationById(rankingId));
+            } catch (error) {
+                console.log(error);
+            } finally {
+                console.log(ranking)
+                setLoading(false);
+            }
+        }
         async function fetchSituations() {
             try {
                 setSituations(await MatchService.getMatchList(rankingId, situationsPage, situationsPageSize, false));
@@ -41,23 +55,28 @@ export default function RankingPage({params}) {
         }
         fetchStandings();
         fetchSituations();
+        fetchRanking();
     }, [standingsPage]);
     return (
         <div className="home">
-                <div className="ranking-section">
-                    { loadingStandings ?
-                        <div>Loading...</div>
-                        :
-                        <RankingTable users={standings}/>
-                    }
-                </div>
-                <div className="situations-section">
-                    { loadingSituations ?
-                        <div>Loading...</div>
-                        :
-                        <SituationFeed situations={situations}/>
-                    }
-                </div>
+            {loading ? <div>Loading...</div>:
+                <>
+                    <div className="ranking-section">
+                        { loadingStandings ?
+                            <div>Loading...</div>
+                            :
+                            <RankingTable title={ranking?.ranking_name} description={ranking?.ranking_description} users={standings}/>
+                        }
+                    </div>
+                    <div className="situations-section">
+                        { loadingSituations ?
+                            <div>Loading...</div>
+                            :
+                            <SituationFeed situations={situations}/>
+                        }
+                    </div>
+                </>
+            }
                 {standingsError && <p className="app-form-error">⚠️ {standingsError}</p>}
         </div>
     )

@@ -14,8 +14,8 @@ export class RankingService {
     static async getRankingConfiguration(ranking_name, ranking_password) {
         return RankingPersistence.getRankingConfiguration(ranking_name, ranking_password);
     }
-    static async createRanking(ranking_name, ranking_password, type, defaultTeamLimit, endsAt) {
-        return RankingPersistence.createRanking(ranking_name, ranking_password, type, defaultTeamLimit, endsAt);
+    static async createRanking(ranking_name, ranking_password, type, defaultTeamLimit, endsAt, rankingDescription) {
+        return RankingPersistence.createRanking(ranking_name, ranking_password, type, defaultTeamLimit, endsAt, rankingDescription);
     }
 
     static async createRankingUser(ranking_id, ranking_user_name) {

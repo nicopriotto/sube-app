@@ -12,7 +12,8 @@ export default function CreateRankingPage() {
     async function handleSubmit(formData) {
         try {
             const rankingName = formData.get("rankingName") ;
-            const rankingPassword = formData.get("rankingPassword") ;
+            const rankingPassword = formData.get("rankingPassword");
+            const rankingDescription = formData.get("rankingDescription");
             const type = formData.get("rankingType") ;
             const endsAt = formData.get("endsAt");
             const endsAtDate = endsAt ? new Date(endsAt) : null;
@@ -24,7 +25,8 @@ export default function CreateRankingPage() {
                 rankingPassword,
                 type,
                 defaultTeamLimit,
-                endsAtDate
+                endsAtDate,
+                rankingDescription,
             );
 
             router.push("/");
@@ -62,6 +64,11 @@ export default function CreateRankingPage() {
                             type="password"
                             required
                         />
+                    </div>
+
+                    <div className="form-group">
+                        <label htmlFor="rankingDescription">Ranking Description</label>
+                        <textarea name="rankingDescription" id="rankingDescription" placeholder="Describe the ranking..." rows="4"></textarea>
                     </div>
 
                     <div className="app-form-group">
