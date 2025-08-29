@@ -7,14 +7,6 @@ import UserRow from "../UserRow"
 
 function RankingTable({users, setUsers}) {
 
-  function updatePoints(id, delta) {
-    setUsers((prevUsers) =>
-      sortUsers(
-        prevUsers.map((user) => (user.id === id ? { ...user, points: Math.max(0, user.points + delta) } : user)),
-      ),
-    )
-  }
-
   return (
     <main className="main-content">
       <div className="ranking-card">

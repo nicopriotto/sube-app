@@ -96,3 +96,24 @@ body {
 .app-form-background button:hover {
     background: #1e4fc9;
 }
+
+.home {
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+    height: 100vh;
+    box-sizing: border-box;
+}
+
+.ranking-section {
+    flex: 7;
+    padding: 16px;
+    border-radius: 12px;
+}
+
+.situations-section {
+    flex: 3;
+    padding: 16px;
+    border-radius: 12px;
+    overflow-y: auto;
+}

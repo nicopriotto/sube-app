@@ -18,7 +18,7 @@ function SituationFeed({ situations, users }) {
             key={idx}
             title={situation.title}
             description={situation.description}
-            user={situation.user}
+            user={situation.users[0]}
             image={situation.image}
             onVote={() => router.push("/situationVote")}
           />

@@ -29,7 +29,7 @@ export class MatchPersistence {
     static async getMatchList(ranking_id, page, pageSize, ended) {
         let query = supabaseClient
             .from('match')
-            .select()
+            .select('*, match_result(*, team(*))')
             .eq('ranking_id', ranking_id);
         if (ended !== undefined) {
             query.eq('ended', ended)
