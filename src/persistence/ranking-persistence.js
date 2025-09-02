@@ -96,6 +96,21 @@ export class RankingPersistence {
             .single();
         return data.score;
     }
-}
 
+    static async getUserRankingsByName(ranking_user_name) {
+        const { data: userRows, error: userErr } = await supabaseClient
+            .from('ranking_user')
+            .select('ranking_id')
+            .eq('ranking_user_name', ranking_user_name);
+        if (userErr) throw userErr;
+        if (!userRows || userRows.length === 0) return [];
+        const ids = Array.from(new Set(userRows.map(r => r.ranking_id)));
+        const { data: rankings, error: rankErr } = await supabaseClient
+            .from('ranking')
+            .select()
+            .in('ranking_id', ids);
+        if (rankErr) throw rankErr;
+        return rankings || [];
+    }
+}
 

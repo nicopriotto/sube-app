@@ -64,4 +64,15 @@ export class RankingService {
             await VotingPersistence.voteMatchResult(match_id, ranking_user_id, points);
         }
     }
+
+    static async getUserRankingsByName(ranking_user_name) {
+        const rows = await RankingPersistence.getUserRankingsByName(ranking_user_name);
+        return rows.map(r => ({
+            id: r.ranking_id,
+            name: r.ranking_name,
+            description: r.ranking_description,
+            type: r.type,
+            endsAt: r.ends_at,
+        }));
+    }
 }
