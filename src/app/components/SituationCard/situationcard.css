@@ -1,7 +1,7 @@
 .situation-card {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  align-items: flex-start;
+  justify-content: flex-start;
   background: #ffffff;
   border-radius: 12px;
   padding: 1rem;
@@ -15,10 +15,7 @@
   box-shadow: 0 4px 12px rgba(0,0,0,0.12);
 }
 
-.situation-card-content {
-  flex: 1;
-  padding-right: 1rem;
-}
+.situation-card-content { flex: 1; }
 
 .situation-card-header h3 {
   margin: 0;
@@ -29,7 +26,7 @@
 
 .situation-card-body {
   margin: 0.4rem 0 0.8rem 0;
-  color: #374151; /* medium gray */
+  color: #374151; 
   font-size: 0.95rem;
   line-height: 1.4;
 }
@@ -39,15 +36,10 @@
   justify-content: flex-start;
 }
 
-.situation-card-image img {
-  width: 90px;
-  height: 90px;
-  object-fit: cover;
-  border-radius: 12px;
-}
+ 
 
 .vote-button {
-  background: #2563eb; /* blue */
+  background: #2563eb; 
   color: #ffffff;
   border: none;
   border-radius: 8px;
@@ -59,5 +51,5 @@
 }
 
 .vote-button:hover {
-  background: #1e40af; /* darker blue */
+  background: #1e40af; 
 }

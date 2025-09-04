@@ -1,6 +1,6 @@
 import SituationVote from "../components/SituationVote";
 export default function VotePage() {
-  // For now you can hardcode the data
+  
   const situation = {
     title: "El amigo más probable de olvidar un cumpleaños",
     description: "Selecciona a tus amigos y asigna puntos…",

@@ -37,28 +37,46 @@ export class RankingService {
         });
     }
 
+    static async getRankingUsers(ranking_id) {
+        return RankingPersistence.getRankingUsers(ranking_id);
+    }
+
     static async vote(match_id, ranking_user_id, points) {
         const match = await MatchPersistence.getMatch(match_id)
-        const [rankingConfiguration, teamCount, votes, participants] = Promise.all([
+        const [rankingConfiguration, rankingUsers, votes, participants] = await Promise.all([
             RankingPersistence.getRankingConfigurationById(match.ranking_id),
-            TeamPersistence.getRankingTeamCount(match.ranking_id),
+            RankingPersistence.getRankingUsers(match.ranking_id),
             VotingPersistence.getMatchVotes(match_id),
             MatchPersistence.getMatchParticipants(match_id)
         ]);
-        const voteCount = votes.length;
         if (rankingConfiguration.type !== RankingPersistence.RankingTypes.VOTE){
             return;
         }
-        if (voteCount >= teamCount) {
+        if ((votes || []).some(v => Number(v.ranking_user_id) === Number(ranking_user_id))) {
             return;
         }
-        if (voteCount === teamCount - 1) {
-            let avg = 0;
-            votes.forEach(vote => avg += vote.points);
-            avg = Math.floor((avg + points) / votes.length + 1);
+        const firstParticipant = participants?.[0]?.team;
+        const involvedUserId = firstParticipant?.ranking_user_team?.[0]?.ranking_user?.ranking_user_id;
+        if (involvedUserId && Number(ranking_user_id) === Number(involvedUserId)) {
+            return;
+        }
+        const eligibleCount = Math.max(0, (rankingUsers?.length || 0) - (involvedUserId ? 1 : 0));
+        const voteCount = votes.length;
+        if (voteCount >= eligibleCount) {
+            return;
+        }
+        if (voteCount === eligibleCount - 1) {
+            const allPoints = votes.map(v => v.points).concat([points]).sort((a,b)=>a-b);
+            const mid = Math.floor(allPoints.length / 2);
+            const median = (allPoints.length % 2 === 0)
+                ? Math.round((allPoints[mid - 1] + allPoints[mid]) / 2)
+                : allPoints[mid];
+            const currentScore = await RankingPersistence.getRankingScore(match.ranking_id, involvedUserId).catch(() => 0);
+            const nextScore = (currentScore || 0) + median;
             await Promise.all([
                 VotingPersistence.voteMatchResult(match_id, ranking_user_id, points),
-                RankingPersistence.updateRankingScore(match.ranking_id, participants[0].ranking_user[0].ranking_user_id, avg)
+                RankingPersistence.updateRankingScore(match.ranking_id, involvedUserId, nextScore),
+                MatchPersistence.setEnded(match_id, true)
             ])
         } else {
             await VotingPersistence.voteMatchResult(match_id, ranking_user_id, points);

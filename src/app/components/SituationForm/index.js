@@ -1,23 +1,48 @@
-'use client'
-import "./situation.css"
-import {useRouter} from "next/navigation";
-import {useEffect, useState} from "react";
-import {MatchService} from "@/services/match-service";
-import {RankingService} from "@/services/ranking-service";
-import {TeamService} from "@/services/team-service";
+"use client";
+import "./situation.css";
+import { useRouter, useParams, useSearchParams } from "next/navigation";
+import { useEffect, useMemo, useState } from "react";
+import { MatchService } from "@/services/match-service";
+import { TeamService } from "@/services/team-service";
+import { RankingService } from "@/services/ranking-service";
 
-function Situation() {
+function Situation({ rankingId: rankingIdProp }) {
     const router = useRouter();
     const [submitting, setSubmitting] = useState(false);
     const [persons, setPersons] = useState([]);
     const [loadingPersons, setLoadingPersons] = useState(true);
+    const [userToTeam, setUserToTeam] = useState({});
     const [error, setError] = useState(null);
+    const params = useParams?.() || {};
+    const searchParams = useSearchParams?.();
+
+    const effectiveRankingId = useMemo(() => {
+        const fromProp = rankingIdProp ? Number(rankingIdProp) : undefined;
+        const fromParams = params?.rankingId ? Number(params.rankingId) : undefined;
+        const fromQuery = searchParams?.get ? Number(searchParams.get("rankingId")) : undefined;
+        return fromProp || fromParams || fromQuery || 9;
+    }, [rankingIdProp, params?.rankingId, searchParams]);
 
     useEffect(() => {
         async function fetchPersons() {
             try {
-                const users = await TeamService.getRankingTeams(9);
-                setPersons(users);
+                const [rankingUsers, teamsWithMembers] = await Promise.all([
+                    RankingService.getRankingUsers(effectiveRankingId),
+                    TeamService.getRankingTeamsWithMembers(effectiveRankingId),
+                ]);
+                setPersons(rankingUsers || []);
+                
+                const mapping = {};
+                (teamsWithMembers || []).forEach(team => {
+                    const ruTeams = team?.ranking_user_team || [];
+                    ruTeams.forEach(entry => {
+                        const ru = entry?.ranking_user;
+                        if (ru && ru.ranking_user_id) {
+                            mapping[ru.ranking_user_id] = team.team_id;
+                        }
+                    });
+                });
+                setUserToTeam(mapping);
             } catch (err) {
                 setError("Failed to load persons");
                 console.error(err);
@@ -27,21 +52,25 @@ function Situation() {
         }
 
         fetchPersons();
-    }, [])
+    }, [effectiveRankingId])
 
     async function handleSubmit(formData) {
         try {
             const title = formData.get("title") ;
             const description = formData.get("description") ;
-            const person = formData.get("person") ;
+            const rankingUserId = Number(formData.get("person"));
 
-            if (!person) {
+            if (!rankingUserId) {
                 setError("Please select a person");
                 return;
             }
-            await MatchService.createRankingMatch(9, [person], 1, title, description);
-
-            router.push("/");
+            const teamId = userToTeam[rankingUserId];
+            if (!teamId) {
+                setError("Selected user is not part of any team in this ranking");
+                return;
+            }
+            await MatchService.createRankingMatch(effectiveRankingId, [teamId], 1, title, description);
+            router.push(`/ranking/${effectiveRankingId}`);
         } catch (err) {
             console.error("Failed to create ranking", err);
             setError(err.message ?? "Failed to create ranking");
@@ -73,8 +102,8 @@ function Situation() {
                       <>
                           <option value="">Choose a person</option>
                           {
-                              persons.map(person =>
-                              <option value={person.team_id} key={person.team_id}>{person.team_name}</option>
+                              persons.map(u =>
+                              <option value={u.ranking_user_id} key={u.ranking_user_id}>{u.ranking_user_name}</option>
                               )
                           }
                       </>

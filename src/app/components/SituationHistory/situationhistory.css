@@ -1,0 +1,35 @@
+.history-container { padding: 16px; max-width: 960px; margin: 0 auto; }
+.history-title { font-size: 1.6rem; font-weight: 800; margin: 0 0 16px; color: #111827; }
+.history-empty { color: #6b7280; }
+
+.history-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+@media (min-width: 720px) { .history-grid { grid-template-columns: 1fr 1fr; } }
+
+.history-card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  padding: 16px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+  transition: transform 0.15s ease, box-shadow 0.2s ease;
+}
+.history-card:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(0,0,0,0.08); }
+
+.history-card-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.history-card-title { margin: 0; font-size: 1.15rem; font-weight: 800; color: #111827; }
+.history-card-desc { margin: 8px 0 12px; color: #374151; line-height: 1.4; }
+.history-involved { margin: 0; color: #111827; font-weight: 600; }
+
+.history-points-badge {
+  display: inline-block;
+  background: linear-gradient(90deg, #10b981, #34d399);
+  color: #ffffff;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-weight: 800;
+  font-size: 0.9rem;
+}

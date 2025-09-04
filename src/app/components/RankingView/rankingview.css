@@ -1,0 +1,18 @@
+.ranking-view { padding: 0 16px; }
+
+.ranking-view-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 8px 0 12px 0;
+}
+
+.ranking-view-header-content { max-width: 70%; }
+
+.ranking-columns {
+  display: flex;
+  gap: 20px;
+}
+
+.ranking-left, .ranking-right { flex: 1; }
+

@@ -25,6 +25,45 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+.hero-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    min-height: calc(100vh - 80px);
+    padding: 40px 16px;
+}
+
+.hero-title {
+    font-size: 40px;
+    font-weight: 800;
+    color: #111827;
+    margin-bottom: 12px;
+}
+
+.hero-subtitle {
+    font-size: 18px;
+    color: #4b5563;
+    margin-bottom: 28px;
+    max-width: 640px;
+}
+
+.hero-button {
+    display: inline-block;
+    background: #2563eb;
+    color: #ffffff;
+    padding: 14px 28px;
+    border-radius: 10px;
+    font-size: 18px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: background 0.2s ease-in-out, transform 0.05s ease-in-out;
+}
+
+.hero-button:hover { background: #1e4fc9; }
+.hero-button:active { transform: translateY(1px); }
+
 .app-form-background {
     max-width: 600px;
     margin: 60px auto;
@@ -106,13 +145,13 @@ body {
 }
 
 .ranking-section {
-    flex: 7;
+    flex: 1;
     padding: 16px;
     border-radius: 12px;
 }
 
 .situations-section {
-    flex: 3;
+    flex: 1;
     padding: 16px;
     border-radius: 12px;
     overflow-y: auto;

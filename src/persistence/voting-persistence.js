@@ -14,7 +14,7 @@ export class VotingPersistence {
     static async getMatchVotes(match_id) {
         const{data, error} = await supabaseClient
             .from('vote')
-            .select()
+            .select('*, ranking_user(ranking_user_id, ranking_user_name)')
             .eq('match_id', match_id)
         return data;
     }

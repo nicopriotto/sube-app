@@ -47,7 +47,7 @@ export class MatchPersistence {
             .select()
             .eq('match_id', match_id)
             .single();
-        return data[0];
+        return data;
     }
 
     static async getMatchParticipants(match_id) {
@@ -55,6 +55,16 @@ export class MatchPersistence {
             .from('match_result')
             .select('team (team_id, team_name, size, ranking_user_team(ranking_user(*)))')
             .eq('match_id', match_id);
+        return data;
+    }
+
+    static async setEnded(match_id, ended = true) {
+        const { data, error } = await supabaseClient
+            .from('match')
+            .update({ ended })
+            .eq('match_id', match_id)
+            .select();
+        if (error) throw new Error(error.message);
         return data;
     }
 
@@ -71,4 +81,3 @@ export class MatchPersistence {
     }
 
 }
-

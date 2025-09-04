@@ -1,6 +1,6 @@
 import "./situationcard.css";
 
-function SituationCard({ title, description, user, image, onVote }) {
+function SituationCard({ title, description, user, onVote }) {
   return (
     <div className="situation-card">
       <div className="situation-card-content">
@@ -15,9 +15,6 @@ function SituationCard({ title, description, user, image, onVote }) {
             Votar
           </button>
         </div>
-      </div>
-      <div className="situation-card-image">
-        <img src={image} alt={title} />
       </div>
     </div>
   );

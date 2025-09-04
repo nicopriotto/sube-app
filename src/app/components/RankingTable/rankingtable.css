@@ -1,16 +1,21 @@
 .main-content {
-  display: flex;
-  justify-content: center;
+  display: block;
   padding: 20px 10px;
 }
+
+.board-columns {
+  display: flex;
+  gap: 20px;
+}
+
+.board-left, .board-right { flex: 1; }
 
 .ranking-card {
   background: #fff;
   border-radius: 12px;
-  padding-left: 10px;
-  padding-bottom: 50px;
-  max-width: 100%;
+  padding: 12px 12px 16px 12px;
   width: 100%;
+  margin: 0;
 }
 
 .ranking-header {
@@ -49,11 +54,11 @@
 
 .rankingTable {
   border: 1px solid #e5e7eb;
-  border-radius: 8px;
+  border-radius: 10px;
   overflow: hidden;
+  padding: 10px 8px;
 }
 
-.headerRow {
-  background: #eceeefae;
-  font-weight: 600;
-}
+.headerRow { background: #f3f4f6; }
+.headerRow .header-cell { font-weight: 700; color: #374151; }
+.headerRow .header-cell:last-child { text-align: right; }

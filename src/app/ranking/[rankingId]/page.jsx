@@ -3,7 +3,6 @@ import {useEffect, useState} from "react";
 import {RankingService} from "@/services/ranking-service";
 import RankingTable from "@/app/components/RankingTable";
 import {useParams} from "next/navigation";
-import SituationFeed from "@/app/components/SituationFeed";
 import {MatchService} from "@/services/match-service";
 
 export default function RankingPage({params}) {
@@ -61,19 +60,18 @@ export default function RankingPage({params}) {
         <div className="home">
             {loading ? <div>Loading...</div>:
                 <>
-                    <div className="ranking-section">
-                        { loadingStandings ?
+                    <div className="ranking-section" style={{width: '100%'}}>
+                        { (loadingStandings && loadingSituations) ? (
                             <div>Loading...</div>
-                            :
-                            <RankingTable title={ranking?.ranking_name} description={ranking?.ranking_description} users={standings}/>
-                        }
-                    </div>
-                    <div className="situations-section">
-                        { loadingSituations ?
-                            <div>Loading...</div>
-                            :
-                            <SituationFeed situations={situations}/>
-                        }
+                        ) : (
+                            <RankingTable
+                                rankingId={rankingId}
+                                title={ranking?.ranking_name}
+                                description={ranking?.ranking_description}
+                                users={standings}
+                                situations={situations}
+                            />
+                        )}
                     </div>
                 </>
             }

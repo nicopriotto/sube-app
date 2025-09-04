@@ -1,6 +1,7 @@
 import {MatchPersistence} from "@/persistence/match-persistence";
 import {TeamService} from "@/services/team-service";
 import {RankingPersistence} from "@/persistence/ranking-persistence";
+import {VotingPersistence} from "@/persistence/voting-persistence";
 
 export class MatchService {
     static async createRankingMatch(ranking_id, team_ids, team_limit, title, description) {
@@ -30,7 +31,7 @@ export class MatchService {
                 teamsAndResults[index].points)
         )
         await Promise.all(resultPromises)
-        //@todo: updatear el ranking
+        
     }
 
     static async getMatchList(ranking_id, page, pageSize, ended){
@@ -48,5 +49,13 @@ export class MatchService {
 
     static async getMatch(match_id) {
         return MatchPersistence.getMatch(match_id);
+    }
+
+    static async getMatchParticipants(match_id) {
+        return MatchPersistence.getMatchParticipants(match_id);
+    }
+
+    static async getMatchVotes(match_id) {
+        return VotingPersistence.getMatchVotes(match_id);
     }
 }

@@ -4,7 +4,7 @@ import SituationCard from "../SituationCard";
 import "./situationfeed.css";
 import { useRouter } from "next/navigation";
 
-function SituationFeed({ situations, users }) {
+function SituationFeed({ situations, users, rankingId }) {
   const router = useRouter();
 
   return (
@@ -19,10 +19,18 @@ function SituationFeed({ situations, users }) {
             title={situation.title}
             description={situation.description}
             user={situation.users[0]}
-            image={situation.image}
-            onVote={() => router.push("/situationVote")}
+            onVote={() => router.push(`/ranking/${rankingId}/situationvote/${situation.id}`)}
           />
         ))}
+        {rankingId && (
+          <button
+            className="vote-button"
+            style={{marginTop: '12px'}}
+            onClick={() => router.push(`/ranking/${rankingId}/history`)}
+          >
+            Ver historial de situaciones
+          </button>
+        )}
       </div>
     </div>
   );

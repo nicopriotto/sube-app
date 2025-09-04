@@ -80,11 +80,9 @@ export class RankingPersistence {
     static async updateRankingScore(ranking_id, ranking_user_id, score) {
         const { data, error } = await supabaseClient
             .from('ranking_score')
-            .update({
-                ranking_id,
-                ranking_user_id,
-                score
-            });
+            .update({ score })
+            .eq('ranking_id', ranking_id)
+            .eq('ranking_user_id', ranking_user_id);
         return data;
     }
     static async getRankingScore(ranking_id, ranking_user_id) {
@@ -97,5 +95,4 @@ export class RankingPersistence {
         return data.score;
     }
 }
-
 

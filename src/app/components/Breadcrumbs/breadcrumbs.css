@@ -1,0 +1,11 @@
+.breadcrumbs {
+  padding: 8px 16px;
+  font-size: 14px;
+  color: #6b7280;
+  border-bottom: 1px solid #e5e7eb;
+}
+.crumb { display: inline-flex; align-items: center; }
+.crumb-sep { margin: 0 8px; color: #9ca3af; }
+.crumb-link { color: #2563eb; text-decoration: none; }
+.crumb-link:hover { text-decoration: underline; }
+.crumb-current { color: #111827; font-weight: 600; }

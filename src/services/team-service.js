@@ -18,4 +18,8 @@ export class TeamService {
     static async getRankingTeams(ranking_id) {
         return TeamPersistence.getRankingTeams(ranking_id);
     }
+
+    static async getRankingTeamCount(ranking_id) {
+        return TeamPersistence.getRankingTeamCount(ranking_id);
+    }
 }
