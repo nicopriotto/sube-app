@@ -66,7 +66,7 @@ export default function CreateRankingPage() {
                         />
                     </div>
 
-                    <div className="form-group">
+                    <div className="app-form-group">
                         <label htmlFor="rankingDescription">Ranking Description</label>
                         <textarea name="rankingDescription" id="rankingDescription" placeholder="Describe the ranking..." rows="4"></textarea>
                     </div>

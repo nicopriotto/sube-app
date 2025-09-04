@@ -52,6 +52,9 @@ export class RankingService {
         if (rankingConfiguration.type !== RankingPersistence.RankingTypes.VOTE){
             return;
         }
+        if (points < 0 || points > 10) {
+            return;
+        }
         if ((votes || []).some(v => Number(v.ranking_user_id) === Number(ranking_user_id))) {
             return;
         }
