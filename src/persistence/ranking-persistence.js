@@ -32,19 +32,6 @@ export class RankingPersistence {
         return data[0];
     }
 
-    static async joinRanking(ranking_id, ranking_user_id) {
-        const { data, error } = await supabaseClient
-            .from('ranking_score')
-            .insert({
-                ranking_id,
-                ranking_user_id,
-            });
-        if (error) {
-            throw error;
-        }
-        return data;
-    }
-
     static async getRankingConfigurationById(id) {
         const { data, error } = await supabaseClient
             .from('ranking')
@@ -64,8 +51,8 @@ export class RankingPersistence {
     }
     static async getRankingsScore(ranking_id, page, pageSize) {
         const { data, error } = await supabaseClient
-            .from('ranking_score')
-            .select('score, ranking_user(*)')
+            .from('ranking_user')
+            .select()
             .range(pageSize * (page - 1), page * pageSize + 1)
             .eq('ranking_id', ranking_id);
         return data;
@@ -79,7 +66,7 @@ export class RankingPersistence {
     }
     static async updateRankingScore(ranking_id, ranking_user_id, score) {
         const { data, error } = await supabaseClient
-            .from('ranking_score')
+            .from('ranking_user')
             .update({ score })
             .eq('ranking_id', ranking_id)
             .eq('ranking_user_id', ranking_user_id);
@@ -87,7 +74,7 @@ export class RankingPersistence {
     }
     static async getRankingScore(ranking_id, ranking_user_id) {
         const { data, error } = await supabaseClient
-            .from('ranking_score')
+            .from('ranking_user')
             .select('score')
             .eq('ranking_id', ranking_id)
             .eq('ranking_user_id', ranking_user_id)

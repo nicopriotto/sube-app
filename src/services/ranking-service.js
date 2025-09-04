@@ -29,8 +29,8 @@ export class RankingService {
     static async getRankingsScore(ranking_id, page, pageSize) {
         return (await RankingPersistence.getRankingsScore(ranking_id, page, pageSize)).map(entry => {
                 return {
-                    id: entry.ranking_user?.ranking_user_id,
-                    name: entry.ranking_user?.ranking_user_name,
+                    id: entry.ranking_user_id,
+                    name: entry.ranking_user_name,
                     avatar: "/avatar.png",
                     points: entry.score,
                 }
