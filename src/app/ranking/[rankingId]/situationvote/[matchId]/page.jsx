@@ -5,6 +5,18 @@ import { MatchService } from "@/services/match-service";
 import { RankingService } from "@/services/ranking-service";
 import SituationVote from "@/app/components/SituationVote";
 import "@/app/components/SituationVote/situationvote.css";
+import {
+  BeatLoader,
+  BounceLoader,
+  CircleLoader,
+  ClimbingBoxLoader, ClockLoader, FadeLoader, GridLoader, HashLoader,
+  MoonLoader, PacmanLoader, PropagateLoader,
+  PuffLoader,
+  RingLoader,
+  RiseLoader, RotateLoader, ScaleLoader, SyncLoader
+} from "react-spinners";
+import {delay} from "framer-motion";
+import LoadingSpinner from "@/app/components/LoadingSpinner/LoadingSpinner";
 
 export default function RankingSituationVotePage() {
   const { rankingId, matchId } = useParams();
@@ -65,7 +77,7 @@ export default function RankingSituationVotePage() {
     };
   }, [participants]);
 
-  if (loading) return <div style={{padding: 16}}>Cargando...</div>;
+  if (loading) return <LoadingSpinner/>;
   if (error) return <div style={{padding: 16}}>⚠️ {error}</div>;
 
   const finished = (votes || []).length >= expectedVotes && expectedVotes > 0;

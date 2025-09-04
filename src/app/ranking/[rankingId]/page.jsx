@@ -4,6 +4,7 @@ import {RankingService} from "@/services/ranking-service";
 import RankingTable from "@/app/components/RankingTable";
 import {useParams} from "next/navigation";
 import {MatchService} from "@/services/match-service";
+import LoadingSpinner from "@/app/components/LoadingSpinner/LoadingSpinner";
 
 export default function RankingPage({params}) {
     const { rankingId } =  useParams();
@@ -56,9 +57,9 @@ export default function RankingPage({params}) {
         fetchSituations();
         fetchRanking();
     }, [standingsPage]);
+    if (loading) return <LoadingSpinner/>
     return (
         <div className="home">
-            {loading ? <div>Loading...</div>:
                 <>
                     <div className="ranking-section" style={{width: '100%'}}>
                         { (loadingStandings && loadingSituations) ? (
@@ -74,7 +75,6 @@ export default function RankingPage({params}) {
                         )}
                     </div>
                 </>
-            }
                 {standingsError && <p className="app-form-error">⚠️ {standingsError}</p>}
         </div>
     )
