@@ -13,9 +13,9 @@ export default function Page() {
               />
               <meta
                   property="og:image"
-                  content="https://example.com/avatar.png"
+                  content="https://sube-app.vercel.app/avatar.png"
               />
-              <meta property="og:url" content="https://example.com/my-page" />
+              <meta property="og:url" content="https://sube-app.vercel.app" />
               <meta property="og:type" content="website" />
           </Head>
     <div className="hero-container">
