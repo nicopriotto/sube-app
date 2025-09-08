@@ -7,7 +7,7 @@ import {MatchService} from "@/services/match-service";
 import LoadingSpinner from "@/app/components/LoadingSpinner/LoadingSpinner";
 import PaginationBar from "@/app/components/PaginationBar";
 
-export default function RankingWrapper({rankingId, joined}) {
+export default function RankingWrapper({rankingId, joined, rankingUserName}) {
     const [ranking, setRanking] = useState(null);
     const [loading, setLoading] = useState(true);
 
@@ -29,7 +29,6 @@ export default function RankingWrapper({rankingId, joined}) {
             } catch (error) {
                 console.log(error);
             } finally {
-                console.log(ranking)
                 setLoading(false);
             }
         }
@@ -72,6 +71,7 @@ export default function RankingWrapper({rankingId, joined}) {
                                 users={standings}
                                 situations={situations}
                                 joined={joined}
+                                rankingUserName={rankingUserName}
                             />
                         </>
                     )}

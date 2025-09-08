@@ -162,6 +162,12 @@ body {
     border-radius: 12px;
 }
 
+.ranking-title {
+    font-size: 32px;
+    font-weight: 700;
+    margin: 0;
+}
+
 .situations-section {
     flex: 1;
     padding: 16px;
