@@ -6,7 +6,7 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { logoutAction } from "@/services/auth-service";
 
-function Navbar({ joined = false }) {
+function Navbar({ joined = false, username = null }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef(null);
 
@@ -30,6 +30,9 @@ function Navbar({ joined = false }) {
           </Link>
         </div>
         <div className="user-profile" ref={menuRef}>
+          {joined && username && (
+            <span className="greeting" aria-live="polite">Hola {username}!</span>
+          )}
           <button
             type="button"
             className="user-avatar-button"

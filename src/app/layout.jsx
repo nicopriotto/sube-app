@@ -3,6 +3,7 @@ import "./globals.css";
 import Navbar from "./components/Navbar"
 import Breadcrumbs from "./components/Breadcrumbs"
 import { cookies } from "next/headers";
+import jwt from "jsonwebtoken";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -35,7 +36,19 @@ export const metadata = {
 };
 
 export default async function RootLayout({ children }) {
-  const joined = !!(await cookies()).get("joinToken")?.value;
+  const cookieStore = await cookies();
+  const token = cookieStore.get("joinToken")?.value;
+  let joined = !!token;
+  let username = null;
+  if (token) {
+    try {
+      const payload = jwt.verify(token, process.env.JWT_SECRET);
+      username = payload?.username || null;
+    } catch (e) {
+      joined = false;
+      username = null;
+    }
+  }
   return (
     <html lang="en">
       <head>
@@ -43,7 +56,7 @@ export default async function RootLayout({ children }) {
         <link rel="icon" href="/avatar.png" sizes="any" />
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <Navbar joined={joined} />
+        <Navbar joined={joined} username={username} />
         <Breadcrumbs />
         {children}
       </body>

@@ -10,7 +10,8 @@ export default async function RankingPage({params}) {
         try {
             rankingUserName = jwt.verify(token, process.env.JWT_SECRET)?.username;
         } catch {
-            console.log("Error verifying token");
+            //await logoutAction();
+            console.log("aura");
         }
     }
     return (

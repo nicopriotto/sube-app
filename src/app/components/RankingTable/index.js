@@ -5,7 +5,7 @@ import Link from "next/link"
 import UserRow from "../UserRow"
 import SituationFeed from "../SituationFeed"
 
-function RankingTable({rankingId, title, description, users, situations, joined, rankingUserName}) {
+function RankingTable({rankingId, title, description, users, situations, joined}) {
 
   return (
     <main className="main-content">
@@ -15,7 +15,6 @@ function RankingTable({rankingId, title, description, users, situations, joined,
           <p className="ranking-subtitle">{description}</p>
         </div>
           <div className={"flex flex-col gap-1"}>
-              {rankingUserName && <h1 className={"ranking-title text-right"}>Hola {rankingUserName}!</h1>}
               { !joined && <Link href={`/ranking/${rankingId}/join`} className="propose-situation-btn">
                   Unirse al Ranking
               </Link>}
