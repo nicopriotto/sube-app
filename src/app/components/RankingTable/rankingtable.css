@@ -1,14 +1,18 @@
 .main-content {
   display: block;
   padding: 20px 10px;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 .board-columns {
   display: flex;
+  flex-direction: column;
   gap: 20px;
+  width: 100%;
 }
 
-.board-left, .board-right { flex: 1; }
+.board-left, .board-right { flex: 1; min-width: 0; }
 
 .ranking-card {
   background: #fff;
@@ -23,6 +27,8 @@
   justify-content: space-between;
   margin-bottom: 24px;
 }
+.ranking-header-content { min-width: 0; }
+.ranking-title, .ranking-subtitle { overflow-wrap: anywhere; word-break: break-word; }
 
 .ranking-title {
   font-size: 32px;
@@ -56,8 +62,33 @@
   border-radius: 10px;
   overflow: hidden;
   padding: 10px 8px;
+  max-width: 100%;
 }
 
 .headerRow { background: #f3f4f6; }
 .headerRow .header-cell { font-weight: 700; color: #374151; }
 .headerRow .header-cell:last-child { text-align: right; }
+
+/* Mobile responsiveness */
+@media (max-width: 920px) {
+  /* already column by default; keep spacing adjustments if needed */
+}
+
+/* Desktop: restore side-by-side layout */
+@media (min-width: 1024px) {
+  .board-columns { flex-direction: row; }
+}
+
+@media (max-width: 768px) {
+  .main-content { padding: 14px 10px; }
+  .ranking-header { flex-direction: column; gap: 10px; align-items: stretch; }
+  .ranking-title { font-size: 24px; }
+  .ranking-subtitle { font-size: 16px; }
+  .propose-situation-btn { text-align: center; border-radius: 10px; padding: 10px 14px; }
+  .ranking-card { padding: 10px; }
+}
+
+@media (max-width: 480px) {
+  .ranking-title { font-size: 22px; }
+  .ranking-subtitle { font-size: 15px; }
+}

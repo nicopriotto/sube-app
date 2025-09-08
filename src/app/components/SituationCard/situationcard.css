@@ -29,6 +29,8 @@
   color: #374151; 
   font-size: 0.95rem;
   line-height: 1.4;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .situation-card-footer {
@@ -52,4 +54,13 @@
 
 .vote-button:hover {
   background: #1e40af; 
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .situation-card { padding: 12px; }
+  .situation-card-header h3 { font-size: 1rem; }
+  .situation-card-body { font-size: 0.95rem; }
+  .situation-card-footer { justify-content: stretch; }
+  .vote-button { width: 100%; text-align: center; padding: 10px 14px; font-size: 1rem; }
 }

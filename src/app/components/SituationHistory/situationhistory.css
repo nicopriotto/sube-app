@@ -22,6 +22,7 @@
 .history-card-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .history-card-title { margin: 0; font-size: 1.15rem; font-weight: 800; color: #111827; }
 .history-card-desc { margin: 8px 0 12px; color: #374151; line-height: 1.4; }
+.history-card-desc { overflow-wrap: anywhere; word-break: break-word; }
 .history-involved { margin: 0; color: #111827; font-weight: 600; }
 
 .history-points-badge {
@@ -32,4 +33,9 @@
   border-radius: 999px;
   font-weight: 800;
   font-size: 0.9rem;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .history-container { padding: 12px; }
 }

@@ -11,6 +11,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  max-width: 100%;
+  min-width: 0;
 }
 
 .logo {
@@ -19,8 +21,9 @@
 }
 
 .logo-icon {
-  color: #2563eb;
-  margin-right: 6px;
+  
+    color: #2563eb;
+    margin-right: 6px;
   font-size: 24px;
 }
 
@@ -49,6 +52,23 @@
 }
 
 .user-profile img {
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
+  object-fit: cover;
+  display: block;
   cursor: pointer;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .app-header { padding: 10px 14px; }
+  .header-content { gap: 10px; }
+  .logo-icon { width: 24px; height: 24px; font-size: 14px; margin-right: 6px; }
+  .logo-text { font-size: 18px; }
+  .nav-links { width: auto; gap: 12px; }
+}
+
+@media (max-width: 480px) {
+  .logo-text { font-size: 16px; }
 }

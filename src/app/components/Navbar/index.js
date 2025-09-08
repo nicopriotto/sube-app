@@ -15,7 +15,7 @@ function Navbar() {
           </Link>
         </div>
         <div className="user-profile">
-          <Image src="/avatar.png" alt="User profile" width={40} height={40} />
+          <Image src="/favicon.png" alt="User profile" width={40} height={40} />
         </div>
       </div>
     </header>

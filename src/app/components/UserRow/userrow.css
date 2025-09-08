@@ -22,7 +22,7 @@
 .userRow .header-spacer { width: 40px; height: 40px; }
 
 .userRow .userInfo { display: flex; flex-direction: column; }
-.userRow .username { font-weight: 700; color: #111827; line-height: 1.1; font-size: 18px; }
+.userRow .username { font-weight: 700; color: #111827; line-height: 1.1; font-size: 18px; overflow-wrap: anywhere; word-break: break-word; }
 .userRow .userPoints { font-size: 14px; color: #6b7280; margin-top: 4px; }
 
 .userRow .rank {
@@ -36,3 +36,18 @@
 .userRow .rank.gold { color: #d4af37; }
 .userRow .rank.silver { color: #a7a7ad; }
 .userRow .rank.bronze { color: #cd7f32; }
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .userRow { grid-template-columns: 44px 1fr auto; gap: 10px; padding: 12px; }
+  .userRow .avatar { width: 44px; height: 44px; }
+  .userRow .username { font-size: 16px; }
+  .userRow .userPoints { font-size: 13px; }
+  .userRow .rank { min-width: 42px; font-size: 18px; }
+}
+
+@media (max-width: 480px) {
+  .userRow { grid-template-columns: 40px 1fr auto; gap: 8px; }
+  .userRow .avatar { width: 40px; height: 40px; }
+  .userRow .rank { min-width: 36px; font-size: 16px; }
+}

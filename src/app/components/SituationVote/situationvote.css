@@ -27,6 +27,8 @@
   font-size: 0.95rem;
   color: #374151;
   line-height: 1.4;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .vote-users {
@@ -166,4 +168,15 @@
 
 .submit-button:hover {
   background: #1e40af;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .vote-container { padding: 1rem 0.75rem; margin: 0 12px; }
+  .vote-title { font-size: 1.4rem; }
+  .vote-form-row { grid-template-columns: 1fr; align-items: stretch; }
+  .vote-actions { justify-content: stretch; }
+  .submit-button, .cancel-button { width: 100%; padding: 0.8rem 1rem; font-size: 1rem; }
+  .vote-user { gap: 8px; }
+  .vote-user-avatar { width: 36px; height: 36px; }
 }
