@@ -1,4 +1,5 @@
 import {supabaseClient} from "../../supabase";
+import {data} from "framer-motion/m";
 
 export class UserPersistence {
     static async createRankingUser(ranking_id, ranking_user_name, password, user_id) {
@@ -15,13 +16,26 @@ export class UserPersistence {
         return data;
     }
 
-    static async getRankingUser(ranking_id, ranking_user_name, password) {
-        const {data, error} = await supabaseClient
+    static async updateRankingUser(ranking_id, ranking_user_name, password, user_id) {
+        const { data, error} = await supabaseClient
             .from('ranking_user')
-            .select('ranking_user_id')
+            .update({
+                ranking_user_name,
+                password,
+                user_id,
+            })
             .eq('ranking_id', ranking_id)
             .eq('ranking_user_name', ranking_user_name)
-            .eq('password', password)
+            .select('ranking_user_id');
+        return data;
+    }
+
+    static async getRankingUser(ranking_id, ranking_user_name) {
+        const {data, error} = await supabaseClient
+            .from('ranking_user')
+            .select()
+            .eq('ranking_id', ranking_id)
+            .eq('ranking_user_name', ranking_user_name)
             .single();
         return data;
     }

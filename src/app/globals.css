@@ -136,6 +136,10 @@ body {
     background: #1e4fc9;
 }
 
+.app-form-error-text {
+    color: #ca3030;
+}
+
 .home {
     display: flex;
     gap: 20px;

@@ -6,28 +6,34 @@ import LoginForm from "@/app/components/LoginForm";
 import {UserService} from "@/services/user-service";
 
 function createJoinAction(rankingId, redirectTo) {
-    return async function join(formData) {
+    return async function join(prevState, queryData) {
         "use server"
-        const username = formData.get("username");
-        const password = formData.get("password");
+        const username = queryData.get("username");
+        const password = queryData.get("password");
 
+        console.log("join join", username, password);
         const id = await UserService.joinRanking(rankingId, username, password);
 
+        if (id === -1) {
+            return { error: "Incorrect password" };
+        }
+
         if (id === undefined) {
-            throw new Error("unexpected error");
+            return { error: "Unexpected error, please try again." };
         }
         const token = jwt.sign({ id, username }, process.env.JWT_SECRET, {
             expiresIn: "31d",
         });
 
         (await cookies()).set({
-            name: "authToken",
+            name: "joinToken",
             value: token,
             httpOnly: true,
             secure: true,
             path: "/",
             maxAge: 60 * 60 * 24 * 31,
         });
+        console.log(redirectTo)
         redirect(redirectTo);
     }
 }

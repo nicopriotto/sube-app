@@ -6,9 +6,17 @@ export class UserService {
     }
 
     static async joinRanking(rankingId, rankingUserName, rankingPassword, userId) {
-        let rankingUserId = (await UserPersistence.getRankingUser(rankingId, rankingUserName, rankingPassword))?.ranking_user_id;
-        if (!rankingUserId) {
+        const user = (await UserPersistence.getRankingUser(rankingId, rankingUserName));
+        let rankingUserId;
+        console.log(user)
+        if (!user) {
             rankingUserId = (await UserPersistence.createRankingUser(rankingId, rankingUserName, rankingPassword, userId))?.ranking_user_id;
+        } else if(!user.password) {
+            rankingUserId = (await UserPersistence.updateRankingUser(rankingId, rankingUserName, rankingPassword, userId))?.ranking_user_id;
+        } else if (user?.password !== rankingPassword) {
+            return -1;
+        } else {
+            rankingUserId = user.ranking_user_id;
         }
         return rankingUserId;
     }

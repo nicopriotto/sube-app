@@ -5,28 +5,15 @@ import { MatchService } from "@/services/match-service";
 import { RankingService } from "@/services/ranking-service";
 import SituationVote from "@/app/components/SituationVote";
 import "@/app/components/SituationVote/situationvote.css";
-import {
-  BeatLoader,
-  BounceLoader,
-  CircleLoader,
-  ClimbingBoxLoader, ClockLoader, FadeLoader, GridLoader, HashLoader,
-  MoonLoader, PacmanLoader, PropagateLoader,
-  PuffLoader,
-  RingLoader,
-  RiseLoader, RotateLoader, ScaleLoader, SyncLoader
-} from "react-spinners";
-import {delay} from "framer-motion";
 import LoadingSpinner from "@/app/components/LoadingSpinner/LoadingSpinner";
 
 export default function SituationVoteWrapper({id}) {
-    console.log(id);
   const { rankingId, matchId } = useParams();
   const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [match, setMatch] = useState(null);
   const [participants, setParticipants] = useState([]);
-  const [rankingUsers, setRankingUsers] = useState([]);
   const [votes, setVotes] = useState([]);
   const [expectedVotes, setExpectedVotes] = useState(0);
 
@@ -41,12 +28,9 @@ export default function SituationVoteWrapper({id}) {
         ]);
         setMatch(m);
         setParticipants(parts || []);
-        const u = users || [];
-        setRankingUsers(u);
-        const allowedIds = new Set(u.map(x => x.ranking_user_id));
-        setVotes((vts || []).filter(v => allowedIds.has(v.ranking_user_id)));
+        setVotes((vts || []));
         const involvedId = parts?.[0]?.team?.ranking_user_team?.[0]?.ranking_user?.ranking_user_id;
-        setExpectedVotes(Math.max(0, u.length - (involvedId ? 1 : 0)));
+        setExpectedVotes(Math.max(0, (users ? users.length:0) - (involvedId ? 1 : 0)));
       } catch (e) {
         console.error(e);
         setError("No se pudo cargar la situación");
@@ -57,12 +41,11 @@ export default function SituationVoteWrapper({id}) {
     load();
   }, [rankingId, matchId]);
 
-  async function submitVote({ rankingUserId, points }) {
+  async function submitVote({ points }) {
     try {
-      await RankingService.vote(Number(matchId), Number(rankingUserId), Number(points));
+      await RankingService.vote(Number(matchId), Number(id), Number(points));
       const vts = await MatchService.getMatchVotes(matchId);
-      const allowedIds = new Set((rankingUsers || []).map(x => x.ranking_user_id));
-      setVotes((vts || []).filter(v => allowedIds.has(v.ranking_user_id)));
+      setVotes((vts || []));
     } catch (e) {
       console.error(e);
       setError("No se pudo enviar el voto");
@@ -73,7 +56,7 @@ export default function SituationVoteWrapper({id}) {
     const t = participants?.[0]?.team;
     const ru = t?.ranking_user_team?.[0]?.ranking_user;
     return {
-      involvedName: ru?.ranking_user_name || t?.team_name || "Participante",
+      involvedName: t?.team_name || "Participante",
       involvedUserId: ru?.ranking_user_id,
     };
   }, [participants]);
@@ -89,7 +72,7 @@ export default function SituationVoteWrapper({id}) {
       description={match?.description}
       involvedName={involvedName}
       involvedUserId={involvedUserId}
-      rankingUsers={rankingUsers}
+      canVote={involvedUserId !== id && !votes.some((v) => v.id === id)}
       votes={votes}
       expectedVotes={expectedVotes}
       finished={finished}

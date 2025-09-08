@@ -1,7 +1,23 @@
 import Link from "next/link";
+import Head from "next/head";
 
 export default function Page() {
   return (
+      <>
+          <Head>
+              <title>Sube App</title>
+              <meta property="og:title" content="Gagaengineering" />
+              <meta
+                  property="og:description"
+                  content="Ranking gaga clausura 2025."
+              />
+              <meta
+                  property="og:image"
+                  content="https://example.com/avatar.png"
+              />
+              <meta property="og:url" content="https://example.com/my-page" />
+              <meta property="og:type" content="website" />
+          </Head>
     <div className="hero-container">
       <h1 className="hero-title">Bienvenido a SubeApp</h1>
       <p className="hero-subtitle">
@@ -11,5 +27,7 @@ export default function Page() {
         Ir al Ranking
       </Link>
     </div>
+      </>
+
   );
 }

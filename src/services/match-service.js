@@ -56,6 +56,12 @@ export class MatchService {
     }
 
     static async getMatchVotes(match_id) {
-        return VotingPersistence.getMatchVotes(match_id);
+        return (await VotingPersistence.getMatchVotes(match_id)).map(result => {
+            return {
+                points: result.points,
+                username: result.ranking_user?.ranking_user_name,
+                id: result.ranking_user?.ranking_user_id,
+            }
+        });
     }
 }
