@@ -14,9 +14,11 @@ export class TeamPersistence {
     }
 
     static async addTeamMember(team_id, ranking_user_id) {
+        console.log(team_id, ranking_user_id);
         const { error } = await supabaseClient
             .from('ranking_user_team')
-            .insert(team_id, ranking_user_id);
+            .insert({team_id, ranking_user_id});
+        console.log(error)
     }
     static async getRankingTeamsWithMembers(ranking_id) {
         const { data, error } = await supabaseClient

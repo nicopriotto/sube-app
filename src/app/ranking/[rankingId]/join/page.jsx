@@ -11,7 +11,6 @@ function createJoinAction(rankingId, redirectTo) {
         const username = queryData.get("username");
         const password = queryData.get("password");
 
-        console.log("join join", username, password);
         const id = await UserService.joinRanking(rankingId, username, password);
 
         if (id === -1) {
@@ -33,7 +32,6 @@ function createJoinAction(rankingId, redirectTo) {
             path: "/",
             maxAge: 60 * 60 * 24 * 31,
         });
-        console.log(redirectTo)
         redirect(redirectTo);
     }
 }
