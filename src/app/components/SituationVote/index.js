@@ -1,3 +1,4 @@
+"use client";
 import "./situationvote.css";
 import { useMemo, useState } from "react";
 
