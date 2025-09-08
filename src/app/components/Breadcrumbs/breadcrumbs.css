@@ -3,6 +3,7 @@
   font-size: 14px;
   color: #6b7280;
   border-bottom: 1px solid #e5e7eb;
+  font-weight: 700;
 }
 .crumb { display: inline-flex; align-items: center; }
 .crumb-sep { margin: 0 8px; color: #9ca3af; }
