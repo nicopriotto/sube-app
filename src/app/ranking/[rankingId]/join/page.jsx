@@ -3,7 +3,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import jwt from "jsonwebtoken";
 import LoginForm from "@/app/components/LoginForm";
-import {UserService} from "@/services/user-service";
+import * as UserServiceServer from "@/services/user/user-service.server";
 
 function createJoinAction(rankingId, redirectTo) {
     return async function join(prevState, queryData) {
@@ -11,7 +11,7 @@ function createJoinAction(rankingId, redirectTo) {
         const username = queryData.get("username");
         const password = queryData.get("password");
 
-        const id = await UserService.joinRanking(rankingId, username, password);
+        const id = await UserServiceServer.joinRanking(rankingId, username, password);
 
         if (id === -1) {
             return { error: "Incorrect password" };

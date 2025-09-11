@@ -1,9 +1,9 @@
 "use client";
-"use client";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
-import { MatchService } from "@/services/match-service";
-import { RankingServiceClient } from "@/services/ranking/ranking-service.client";
+import * as MatchServiceClient from "@/services/match/match-service.client";
+import * as RankingServiceClient from "@/services/ranking/ranking-service.client";
+import * as RankingServiceServer from "@/services/ranking/ranking-service.server";
 import SituationVote from "@/app/components/SituationVote";
 import "@/app/components/SituationVote/situationvote.css";
 
@@ -23,12 +23,12 @@ export default function SituationDetailsPage() {
   useEffect(() => {
     async function load() {
       try {
-        const m = await MatchService.getMatch(matchId);
+        const m = await MatchServiceClient.getMatch(matchId);
         setMatch(m);
         const [parts, users, vts] = await Promise.all([
-          MatchService.getMatchParticipants(matchId),
+          MatchServiceClient.getMatchParticipants(matchId),
           RankingServiceClient.getRankingUsers(m.ranking_id),
-          MatchService.getMatchVotes(matchId),
+          MatchServiceClient.getMatchVotes(matchId),
         ]);
         setParticipants(parts || []);
         const u = users || [];
@@ -50,9 +50,9 @@ export default function SituationDetailsPage() {
 
   async function submitVote({ rankingUserId, points }) {
     try {
-      await RankingServiceClient.vote(Number(matchId), Number(rankingUserId), Number(points));
+      await RankingServiceServer.vote(Number(matchId), Number(rankingUserId), Number(points));
       
-      const vts = await MatchService.getMatchVotes(matchId);
+      const vts = await MatchServiceClient.getMatchVotes(matchId);
       const allowedIds = new Set((rankingUsers || []).map(x => x.ranking_user_id));
       const filteredVotes = (vts || []).filter(v => allowedIds.has(v.ranking_user_id));
       setVotes(filteredVotes);

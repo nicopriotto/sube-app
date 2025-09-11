@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import { MatchService } from "@/services/match-service";
+import * as MatchServiceClient from "@/services/match/match-service.client";
 import SituationHistory from "@/app/components/SituationHistory";
 
 export default function RankingHistoryPage() {
@@ -13,12 +13,12 @@ export default function RankingHistoryPage() {
   useEffect(() => {
     async function load() {
       try {
-        const matches = await MatchService.getMatchList(rankingId, 1, 100, true);
+        const matches = await MatchServiceClient.getMatchList(rankingId, 1, 100, true);
         const details = await Promise.all(
           (matches || []).map(async (m) => {
             const [votes, participants] = await Promise.all([
-              MatchService.getMatchVotes(m.id),
-              MatchService.getMatchParticipants(m.id),
+              MatchServiceClient.getMatchVotes(m.id),
+              MatchServiceClient.getMatchParticipants(m.id),
             ]);
             const points = (votes || []).map(v => v.points).sort((a,b)=>a-b);
             const mid = Math.floor(points.length / 2);

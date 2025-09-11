@@ -2,7 +2,7 @@
 import {useEffect, useState} from "react";
 import * as RankingServiceClient from "@/services/ranking/ranking-service.client";
 import RankingTable from "@/app/components/RankingTable";
-import {MatchService} from "@/services/match-service";
+import * as MatchServiceClient from "@/services/match/match-service.client";
 import LoadingSpinner from "@/app/components/LoadingSpinner/LoadingSpinner";
 
 export default function RankingWrapper({rankingId, joined, rankingUserName}) {
@@ -32,7 +32,7 @@ export default function RankingWrapper({rankingId, joined, rankingUserName}) {
         }
         async function fetchSituations() {
             try {
-                setSituations(await MatchService.getMatchList(rankingId, situationsPage, situationsPageSize, false));
+                setSituations(await MatchServiceClient.getMatchList(rankingId, situationsPage, situationsPageSize, false));
             } catch (error) {
                 setSituationsError(error);
             } finally {

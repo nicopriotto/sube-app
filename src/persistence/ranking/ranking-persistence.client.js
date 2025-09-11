@@ -19,7 +19,7 @@ export async function getRankingConfiguration(ranking_name, ranking_password) {
 }
 export async function getRankingsScore(ranking_id, page, pageSize) {
     const { data, error } = await supabaseClient
-        .from('ranking_user')
+        .from('ranking_user_view')
         .select()
         .range(pageSize * (page - 1), page * pageSize + 1)
         .eq('ranking_id', ranking_id);
@@ -27,7 +27,7 @@ export async function getRankingsScore(ranking_id, page, pageSize) {
 }
 export async function getRankingUsers(ranking_id) {
     const { data, error } = await supabaseClient
-        .from('ranking_user')
+        .from('ranking_user_view')
         .select()
         .eq('ranking_id', ranking_id)
     return data;
