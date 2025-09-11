@@ -1,4 +1,4 @@
-import {supabaseClient} from "../../supabase";
+import {supabaseClient} from "../../supabase.client";
 
 export class VotingPersistence {
     static async voteMatchResult(match_id, ranking_user_id, points) {

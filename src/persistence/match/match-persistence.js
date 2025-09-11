@@ -1,4 +1,4 @@
-import {supabaseClient} from "../../supabase";
+import {supabaseClient} from "../../../supabase.client";
 
 export class MatchPersistence {
     static async createMatch(ranking_id, team_limit, title, description) {

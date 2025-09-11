@@ -2,7 +2,7 @@
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { MatchService } from "@/services/match-service";
-import { RankingService } from "@/services/ranking-service";
+import { RankingServiceClient } from "@/services/ranking/ranking-service.client";
 import SituationVote from "@/app/components/SituationVote";
 import "@/app/components/SituationVote/situationvote.css";
 import LoadingSpinner from "@/app/components/LoadingSpinner/LoadingSpinner";
@@ -23,7 +23,7 @@ export default function SituationVoteWrapper({id}) {
         const [m, parts, users, vts] = await Promise.all([
           MatchService.getMatch(matchId),
           MatchService.getMatchParticipants(matchId),
-          RankingService.getRankingUsers(rankingId),
+          RankingServiceClient.getRankingUsers(rankingId),
           MatchService.getMatchVotes(matchId),
         ]);
         setMatch(m);
@@ -43,7 +43,7 @@ export default function SituationVoteWrapper({id}) {
 
   async function submitVote({ points }) {
     try {
-      await RankingService.vote(Number(matchId), Number(id), Number(points));
+      await RankingServiceClient.vote(Number(matchId), Number(id), Number(points));
       const vts = await MatchService.getMatchVotes(matchId);
       setVotes((vts || []));
     } catch (e) {

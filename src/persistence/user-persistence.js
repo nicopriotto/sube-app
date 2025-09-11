@@ -1,4 +1,4 @@
-import {supabaseClient} from "../../supabase";
+import {supabaseClient} from "../../supabase.client";
 import {data} from "framer-motion/m";
 
 export class UserPersistence {

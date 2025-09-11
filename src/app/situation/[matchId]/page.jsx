@@ -3,7 +3,7 @@
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { MatchService } from "@/services/match-service";
-import { RankingService } from "@/services/ranking-service";
+import { RankingServiceClient } from "@/services/ranking/ranking-service.client";
 import SituationVote from "@/app/components/SituationVote";
 import "@/app/components/SituationVote/situationvote.css";
 
@@ -27,7 +27,7 @@ export default function SituationDetailsPage() {
         setMatch(m);
         const [parts, users, vts] = await Promise.all([
           MatchService.getMatchParticipants(matchId),
-          RankingService.getRankingUsers(m.ranking_id),
+          RankingServiceClient.getRankingUsers(m.ranking_id),
           MatchService.getMatchVotes(matchId),
         ]);
         setParticipants(parts || []);
@@ -50,7 +50,7 @@ export default function SituationDetailsPage() {
 
   async function submitVote({ rankingUserId, points }) {
     try {
-      await RankingService.vote(Number(matchId), Number(rankingUserId), Number(points));
+      await RankingServiceClient.vote(Number(matchId), Number(rankingUserId), Number(points));
       
       const vts = await MatchService.getMatchVotes(matchId);
       const allowedIds = new Set((rankingUsers || []).map(x => x.ranking_user_id));

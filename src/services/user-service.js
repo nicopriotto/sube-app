@@ -1,5 +1,5 @@
 import {UserPersistence} from "@/persistence/user-persistence";
-import {RankingPersistence} from "@/persistence/ranking-persistence";
+import {RankingPersistenceClient} from "@/persistence/ranking/ranking-persistence.client";
 import {TeamService} from "@/services/team-service";
 
 export class UserService {
@@ -11,9 +11,9 @@ export class UserService {
         const user = (await UserPersistence.getRankingUser(rankingId, rankingUserName));
         let rankingUserId;
         if (!user) {
-            const ranking = await RankingPersistence.getRankingConfigurationById(rankingId);
+            const ranking = await RankingPersistenceClient.getRankingConfigurationById(rankingId);
             rankingUserId = (await UserPersistence.createRankingUser(rankingId, rankingUserName, rankingPassword, userId))?.ranking_user_id;
-            if (ranking && ranking.type === RankingPersistence.RankingTypes.VOTE) {
+            if (ranking && ranking.type === RankingPersistenceClient.RankingTypes.VOTE) {
                 await TeamService.createTeam(rankingId, rankingUserName, 1, [rankingUserId])
             }
         } else if(!user.password) {

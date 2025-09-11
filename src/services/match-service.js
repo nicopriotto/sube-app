@@ -1,6 +1,6 @@
-import {MatchPersistence} from "@/persistence/match-persistence";
+import {MatchPersistence} from "@/persistence/match/match-persistence";
 import {TeamService} from "@/services/team-service";
-import {RankingPersistence} from "@/persistence/ranking-persistence";
+import {RankingPersistenceClient} from "@/persistence/ranking/ranking-persistence.client";
 import {VotingPersistence} from "@/persistence/voting-persistence";
 
 export class MatchService {
@@ -14,10 +14,10 @@ export class MatchService {
     }
 
     static async createPastRankingMatch(ranking_id, teamsAndResults, team_limit, title, description) {
-        const ranking = await RankingPersistence.getRankingConfigurationById(ranking_id);
+        const ranking = await RankingPersistenceClient.getRankingConfigurationById(ranking_id);
         if (!ranking) {
             throw new Error('ranking not found');
-        } else if (ranking.type === RankingPersistence.RankingTypes.VOTE) {
+        } else if (ranking.type === RankingPersistenceClient.RankingTypes.VOTE) {
             throw new Error('operation not allowed for vote type rankings');
         }
         const teamPromises = []

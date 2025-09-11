@@ -1,11 +1,9 @@
 'use client'
 import {useEffect, useState} from "react";
-import {RankingService} from "@/services/ranking-service";
+import * as RankingServiceClient from "@/services/ranking/ranking-service.client";
 import RankingTable from "@/app/components/RankingTable";
-import {useParams} from "next/navigation";
 import {MatchService} from "@/services/match-service";
 import LoadingSpinner from "@/app/components/LoadingSpinner/LoadingSpinner";
-import PaginationBar from "@/app/components/PaginationBar";
 
 export default function RankingWrapper({rankingId, joined, rankingUserName}) {
     const [ranking, setRanking] = useState(null);
@@ -25,7 +23,7 @@ export default function RankingWrapper({rankingId, joined, rankingUserName}) {
     useEffect(() => {
         async function fetchRanking() {
             try {
-                setRanking(await RankingService.getRankingConfigurationById(rankingId));
+                setRanking(await RankingServiceClient.getRankingConfigurationById(rankingId));
             } catch (error) {
                 console.log(error);
             } finally {
@@ -43,7 +41,7 @@ export default function RankingWrapper({rankingId, joined, rankingUserName}) {
         }
         async function fetchStandings() {
             try {
-                setStandings(await RankingService.getRankingsScore(rankingId, standingsPage, standingsPageSize));
+                setStandings(await RankingServiceClient.getRankingsScore(rankingId, standingsPage, standingsPageSize));
             } catch (error) {
                 setStandingsError("Error fetching ranking");
                 console.log(error);

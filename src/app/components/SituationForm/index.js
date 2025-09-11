@@ -4,7 +4,7 @@ import { useRouter, useParams, useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { MatchService } from "@/services/match-service";
 import { TeamService } from "@/services/team-service";
-import { RankingService } from "@/services/ranking-service";
+import { RankingServiceClient } from "@/services/ranking/ranking-service.client";
 
 function Situation({ rankingId: rankingIdProp }) {
     const router = useRouter();
@@ -27,7 +27,7 @@ function Situation({ rankingId: rankingIdProp }) {
         async function fetchPersons() {
             try {
                 const [rankingUsers, teamsWithMembers] = await Promise.all([
-                    RankingService.getRankingUsers(effectiveRankingId),
+                    RankingServiceClient.getRankingUsers(effectiveRankingId),
                     TeamService.getRankingTeamsWithMembers(effectiveRankingId),
                 ]);
                 setPersons(rankingUsers || []);
