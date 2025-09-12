@@ -14,7 +14,6 @@ export async function createTeam(ranking_id, team_name, size) {
 }
 
 export async function addTeamMember(team_id, ranking_user_id) {
-    console.log(team_id, ranking_user_id);
     const { error } = await supabaseServer
         .from('ranking_user_team')
         .insert({team_id, ranking_user_id});
