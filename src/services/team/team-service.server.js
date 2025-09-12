@@ -1,3 +1,4 @@
+"use server"
 import * as TeamPersistenceServer from "@/persistence/team/team-persistence.server";
 
 export async function createTeam(ranking_id, team_name, size, members) {

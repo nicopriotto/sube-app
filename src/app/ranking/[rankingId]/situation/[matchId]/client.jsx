@@ -6,38 +6,32 @@ import * as RankingServiceClient from "@/services/ranking/ranking-service.client
 import * as RankingServiceServer from "@/services/ranking/ranking-service.server";
 import SituationVote from "@/app/components/SituationVote";
 import "@/app/components/SituationVote/situationvote.css";
+import LoadingSpinner from "@/app/components/LoadingSpinner/LoadingSpinner";
 
-export default function SituationDetailsPage() {
-  const { matchId } = useParams();
+export default function SituationVoteWrapper({id}) {
+  const { rankingId, matchId } = useParams();
   const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [match, setMatch] = useState(null);
   const [participants, setParticipants] = useState([]);
-  const [rankingUsers, setRankingUsers] = useState([]);
   const [votes, setVotes] = useState([]);
   const [expectedVotes, setExpectedVotes] = useState(0);
-
-  const rankingId = match?.ranking_id;
 
   useEffect(() => {
     async function load() {
       try {
-        const m = await MatchServiceClient.getMatch(matchId);
-        setMatch(m);
-        const [parts, users, vts] = await Promise.all([
+        const [m, parts, users, vts] = await Promise.all([
+          MatchServiceClient.getMatch(matchId),
           MatchServiceClient.getMatchParticipants(matchId),
-          RankingServiceClient.getRankingUsers(m.ranking_id),
+          RankingServiceClient.getRankingUsers(rankingId),
           MatchServiceClient.getMatchVotes(matchId),
         ]);
+        setMatch(m);
         setParticipants(parts || []);
-        const u = users || [];
-        setRankingUsers(u);
-        const allowedIds = new Set(u.map(x => x.ranking_user_id));
-        const filteredVotes = (vts || []).filter(v => allowedIds.has(v.ranking_user_id));
-        setVotes(filteredVotes);
-        const involvedId = parts?.[0]?.team?.ranking_user_team?.[0]?.ranking_user?.ranking_user_id;
-        setExpectedVotes(Math.max(0, u.length - (involvedId ? 1 : 0)));
+        setVotes((vts || []));
+        const involvedId = parts?.[0]?.team?.ranking_user_team?.[0]?.ranking_user_view?.ranking_user_id;
+        setExpectedVotes(Math.max(0, (users ? users.length:0) - (involvedId ? 1 : 0)));
       } catch (e) {
         console.error(e);
         setError("No se pudo cargar la situación");
@@ -46,16 +40,13 @@ export default function SituationDetailsPage() {
       }
     }
     load();
-  }, [matchId]);
+  }, [rankingId, matchId]);
 
-  async function submitVote({ rankingUserId, points }) {
+  async function submitVote({ points }) {
     try {
-      await RankingServiceServer.vote(Number(matchId), Number(rankingUserId), Number(points));
-      
+      await RankingServiceServer.vote(Number(matchId), Number(id), Number(points));
       const vts = await MatchServiceClient.getMatchVotes(matchId);
-      const allowedIds = new Set((rankingUsers || []).map(x => x.ranking_user_id));
-      const filteredVotes = (vts || []).filter(v => allowedIds.has(v.ranking_user_id));
-      setVotes(filteredVotes);
+      setVotes((vts || []));
     } catch (e) {
       console.error(e);
       setError("No se pudo enviar el voto");
@@ -64,15 +55,15 @@ export default function SituationDetailsPage() {
 
   const { involvedName, involvedUserId } = useMemo(() => {
     const t = participants?.[0]?.team;
-    const ru = t?.ranking_user_team?.[0]?.ranking_user;
+    const ru = t?.ranking_user_team?.[0]?.ranking_user_view;
     return {
-      involvedName: ru?.ranking_user_name || t?.team_name || "Participante",
+      involvedName: t?.team_name || "Participante",
       involvedUserId: ru?.ranking_user_id,
     };
   }, [participants]);
 
-  if (loading) return <div style={{padding: 16}}>Cargando...</div>;
-  if (error) return <div style={{padding: 16}}>Error: {error}</div>;
+  if (loading) return <LoadingSpinner/>;
+  if (error) return <div style={{padding: 16}}>⚠️ {error}</div>;
 
   const finished = (votes || []).length >= expectedVotes && expectedVotes > 0;
 
@@ -82,7 +73,7 @@ export default function SituationDetailsPage() {
       description={match?.description}
       involvedName={involvedName}
       involvedUserId={involvedUserId}
-      rankingUsers={rankingUsers}
+      canVote={involvedUserId !== id && !votes.some((v) => v.id === id)}
       votes={votes}
       expectedVotes={expectedVotes}
       finished={finished}

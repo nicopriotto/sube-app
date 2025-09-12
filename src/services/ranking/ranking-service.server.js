@@ -38,7 +38,7 @@ export async function vote(match_id, ranking_user_id, points) {
         return;
     }
     const firstParticipant = participants?.[0]?.team;
-    const involvedUserId = firstParticipant?.ranking_user_team?.[0]?.ranking_user?.ranking_user_id;
+    const involvedUserId = firstParticipant?.ranking_user_team?.[0]?.ranking_user_view?.ranking_user_id;
     if (involvedUserId && Number(ranking_user_id) === Number(involvedUserId)) {
         return;
     }

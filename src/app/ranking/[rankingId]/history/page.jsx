@@ -24,7 +24,7 @@ export default function RankingHistoryPage() {
             const mid = Math.floor(points.length / 2);
             const median = points.length ? (points.length % 2 === 0 ? Math.round((points[mid-1] + points[mid]) / 2) : points[mid]) : 0;
             const team = participants?.[0]?.team;
-            const involved = team?.ranking_user_team?.[0]?.ranking_user?.ranking_user_name || team?.team_name;
+            const involved = team?.ranking_user_team?.[0]?.ranking_user_view?.ranking_user_name || team?.team_name;
             return {
               id: m.id,
               title: m.title,

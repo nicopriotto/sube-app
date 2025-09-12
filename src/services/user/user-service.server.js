@@ -1,10 +1,11 @@
+"use server"
 import * as UserPersistenceServer from "@/persistence/user/user-persistence.server";
 import * as RankingPersistenceClient from "@/persistence/ranking/ranking-persistence.client";
 import * as TeamServiceServer from "@/services/team/team-service.server";
 import {RankingTypes} from "@/persistence/ranking/types";
 
 export async function createRankingUser(rankingId, rankingUserName, rankingPassword, userId) {
-    return UserPersistenceServer.createRankingUser()
+    return UserPersistenceServer.createRankingUser(rankingId, rankingUserName, rankingPassword, userId);
 }
 
 export async function joinRanking(rankingId, rankingUserName, rankingPassword, userId) {

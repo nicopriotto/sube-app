@@ -1,7 +1,6 @@
 "use server"
 
 import {supabaseServer} from "../../../supabase.server";
-import {supabaseClient} from "../../../supabase.client";
 
 export async function createRankingUser(ranking_id, ranking_user_name, password, user_id) {
     const {data, error} = await supabaseServer
@@ -31,7 +30,7 @@ export async function updateRankingUser(ranking_id, ranking_user_name, password,
     return data;
 }
 export async function getRankingUser(ranking_id, ranking_user_name) {
-    const {data, error} = await supabaseClient
+    const {data, error} = await supabaseServer
         .from('ranking_user')
         .select()
         .eq('ranking_id', ranking_id)
