@@ -1,49 +1,18 @@
 'use client'
 
-import { RankingService } from "@/services/ranking-service";
-import { useState} from "react";
-import {useRouter} from "next/navigation";
-
-export default function CreateRankingPage() {
-    const router = useRouter();
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
-
-    async function handleSubmit(formData) {
-        try {
-            const rankingName = formData.get("rankingName") ;
-            const rankingPassword = formData.get("rankingPassword");
-            const rankingDescription = formData.get("rankingDescription");
-            const type = formData.get("rankingType") ;
-            const endsAt = formData.get("endsAt");
-            const endsAtDate = endsAt ? new Date(endsAt) : null;
-
-            const defaultTeamLimit = 10;
-
-            await RankingService.createRanking(
-                rankingName,
-                rankingPassword,
-                type,
-                defaultTeamLimit,
-                endsAtDate,
-                rankingDescription,
-            );
-
-            router.push("/");
-        } catch (err) {
-            console.error("Failed to create ranking", err);
-            setError(err.message ?? "Failed to create ranking");
-        } finally {
-            setLoading(false);
-        }
-    }
+import {useActionState} from "react";
+import {useFormStatus} from "react-dom";
+import * as RankingServiceClient from "@/services/ranking/ranking-service.client";
+export default function RankingForm({onSubmit}) {
+    const [state, formAction] = useActionState(onSubmit, { error: null });
+    const {loading} = useFormStatus();
 
     return (
         <div className="app">
             <div className="app-form-background">
                 <h2>Create new Ranking</h2>
 
-                <form className="app-form" action={handleSubmit}>
+                <form className="app-form" action={formAction}>
                     <div className="app-form-group">
                         <label htmlFor="rankingName">Ranking name</label>
                         <input
@@ -75,7 +44,7 @@ export default function CreateRankingPage() {
                         <label htmlFor="rankingType">Select Ranking Type</label>
                         <select name="rankingType" id="rankingType" required>
                             <option value="">Choose a type</option>
-                            {Object.values(RankingService.getRankingTypes()).map((type, index) => (
+                            {Object.values(RankingServiceClient.getRankingTypes()).map((type, index) => (
                                 <option key={index} value={type}>
                                     {type}
                                 </option>
@@ -87,7 +56,7 @@ export default function CreateRankingPage() {
                         <label htmlFor="endsAt">Ends At</label>
                         <input name="endsAt" id="endsAt" type="date" />
                     </div>
-                    {error && <p className="app-form-error">⚠️ {error}</p>}
+                    {state.error && <p className="app-form-error">⚠️ {state.error}</p>}
 
                     <button type="submit" disabled={loading}>
                         {loading ? "Creating..." : "Create Ranking"}

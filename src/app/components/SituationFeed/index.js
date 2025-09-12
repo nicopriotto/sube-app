@@ -19,7 +19,7 @@ function SituationFeed({ situations, users, rankingId }) {
             title={situation.title}
             description={situation.description}
             user={situation.users[0]}
-            onVote={() => router.push(`/ranking/${rankingId}/situationvote/${situation.id}`)}
+            onVote={() => router.push(`/ranking/${rankingId}/situation/${situation.id}`)}
           />
         ))}
         {rankingId && (

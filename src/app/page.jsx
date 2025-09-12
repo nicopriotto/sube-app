@@ -9,7 +9,7 @@ export default function Page() {
       <p className="hero-subtitle">
         Organiza competencias, registra resultados y sigue el ranking en tiempo real.
       </p>
-      <Link href="/ranking/9" className="hero-button">
+      <Link href="/ranking/18" className="hero-button">
         Ir al Ranking
       </Link>
     </div>

@@ -29,9 +29,9 @@ export default function Breadcrumbs() {
       i += 2;
       continue;
     }
-    if (seg === "situationvote" && i + 1 < segments.length) {
+    if (seg === "situation" && i + 1 < segments.length) {
       const id = segments[i + 1];
-      path += `/situationvote/${id}`;
+      path += `/situation/${id}`;
       crumbs.push({ name: "Votar", href: path });
       i += 2;
       continue;
