@@ -57,11 +57,11 @@ export default async function RootLayout({ children }) {
 
           <meta name="theme-color" content="#000000" />
 
-          <link rel="apple-touch-icon" href="/avatar.png" />
+          <link rel="apple-touch-icon" href="/icon.png" />
           <meta name="apple-mobile-web-app-capable" content="yes" />
           <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
-          <link rel="icon" href="/avatar.png" sizes="any" />
+          <link rel="icon" href="/icon.png" sizes="any" />
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <Navbar joined={joined} username={username} />
