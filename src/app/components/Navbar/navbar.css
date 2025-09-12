@@ -99,7 +99,6 @@
   .logo-icon { width: 24px; height: 24px; font-size: 14px; margin-right: 6px; }
   .logo-text { font-size: 18px; }
   .nav-links { width: auto; gap: 12px; }
-  .greeting { display: none; }
 }
 
 @media (max-width: 480px) {
