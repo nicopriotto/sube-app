@@ -51,7 +51,7 @@ function Navbar({ joined = false, username = null }) {
                   </button>
                 </form>
               ) : (
-                <Link href="/ranking/9/join" className="dropdown-item" role="menuitem">
+                <Link href="/ranking/18/join" className="dropdown-item" role="menuitem">
                   Log in
                 </Link>
               )}

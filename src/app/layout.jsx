@@ -55,11 +55,11 @@ export default async function RootLayout({ children }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
           <link rel="manifest" href="/manifest.json" />
 
-          <meta name="theme-color" content="#000000" />
+          <meta name="theme-color" content="#ffffff" />
 
           <link rel="apple-touch-icon" href="/icon.png" />
           <meta name="apple-mobile-web-app-capable" content="yes" />
-          <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+          <meta name="apple-mobile-web-app-status-bar-style" content="white" />
 
           <link rel="icon" href="/icon.png" sizes="any" />
       </head>
