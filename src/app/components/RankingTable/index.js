@@ -5,13 +5,15 @@ import Link from "next/link"
 import UserRow from "../UserRow"
 import SituationFeed from "../SituationFeed"
 
-function RankingTable({rankingId, title, description, users, situations, joined}) {
+function RankingTable({rankingId, title, description, users, situations, joined, rankingUserName}) {
 
   return (
     <main className="main-content">
       <div className="ranking-header">
         <div className="ranking-header-content">
-          <h1 className="ranking-title">{title}</h1>
+          <div className={"flex"}><h1 className="ranking-title">{title}</h1>{ rankingUserName === "che" && <Link href={`/ranking/${rankingId}/notifications`} className="propose-situation-btn">
+              Notificaciones
+          </Link>}</div>
           <p className="ranking-subtitle">{description}</p>
         </div>
           <div className={"flex flex-col gap-1"}>
