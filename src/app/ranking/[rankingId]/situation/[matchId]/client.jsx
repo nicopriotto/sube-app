@@ -1,8 +1,9 @@
 "use client";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
-import { MatchService } from "@/services/match-service";
-import { RankingService } from "@/services/ranking-service";
+import * as MatchServiceClient from "@/services/match/match-service.client";
+import * as RankingServiceClient from "@/services/ranking/ranking-service.client";
+import * as RankingServiceServer from "@/services/ranking/ranking-service.server";
 import SituationVote from "@/app/components/SituationVote";
 import "@/app/components/SituationVote/situationvote.css";
 import LoadingSpinner from "@/app/components/LoadingSpinner/LoadingSpinner";
@@ -21,15 +22,15 @@ export default function SituationVoteWrapper({id}) {
     async function load() {
       try {
         const [m, parts, users, vts] = await Promise.all([
-          MatchService.getMatch(matchId),
-          MatchService.getMatchParticipants(matchId),
-          RankingService.getRankingUsers(rankingId),
-          MatchService.getMatchVotes(matchId),
+          MatchServiceClient.getMatch(matchId),
+          MatchServiceClient.getMatchParticipants(matchId),
+          RankingServiceClient.getRankingUsers(rankingId),
+          MatchServiceClient.getMatchVotes(matchId),
         ]);
         setMatch(m);
         setParticipants(parts || []);
         setVotes((vts || []));
-        const involvedId = parts?.[0]?.team?.ranking_user_team?.[0]?.ranking_user?.ranking_user_id;
+        const involvedId = parts?.[0]?.team?.ranking_user_team?.[0]?.ranking_user_view?.ranking_user_id;
         setExpectedVotes(Math.max(0, (users ? users.length:0) - (involvedId ? 1 : 0)));
       } catch (e) {
         console.error(e);
@@ -43,8 +44,8 @@ export default function SituationVoteWrapper({id}) {
 
   async function submitVote({ points }) {
     try {
-      await RankingService.vote(Number(matchId), Number(id), Number(points));
-      const vts = await MatchService.getMatchVotes(matchId);
+      await RankingServiceServer.vote(Number(matchId), Number(id), Number(points));
+      const vts = await MatchServiceClient.getMatchVotes(matchId);
       setVotes((vts || []));
     } catch (e) {
       console.error(e);
@@ -54,7 +55,7 @@ export default function SituationVoteWrapper({id}) {
 
   const { involvedName, involvedUserId } = useMemo(() => {
     const t = participants?.[0]?.team;
-    const ru = t?.ranking_user_team?.[0]?.ranking_user;
+    const ru = t?.ranking_user_team?.[0]?.ranking_user_view;
     return {
       involvedName: t?.team_name || "Participante",
       involvedUserId: ru?.ranking_user_id,

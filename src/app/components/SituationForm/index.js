@@ -2,9 +2,9 @@
 import "./situation.css";
 import { useRouter, useParams, useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
-import { MatchService } from "@/services/match-service";
-import { TeamService } from "@/services/team-service";
-import { RankingService } from "@/services/ranking-service";
+import * as MatchServiceServer from "@/services/match/match-service.server";
+import * as TeamServiceClient from "@/services/team/team-service.client";
+import * as RankingServiceClient from "@/services/ranking/ranking-service.client";
 
 function Situation({ rankingId: rankingIdProp }) {
     const router = useRouter();
@@ -27,8 +27,8 @@ function Situation({ rankingId: rankingIdProp }) {
         async function fetchPersons() {
             try {
                 const [rankingUsers, teamsWithMembers] = await Promise.all([
-                    RankingService.getRankingUsers(effectiveRankingId),
-                    TeamService.getRankingTeamsWithMembers(effectiveRankingId),
+                    RankingServiceClient.getRankingUsers(effectiveRankingId),
+                    TeamServiceClient.getRankingTeamsWithMembers(effectiveRankingId),
                 ]);
                 setPersons(rankingUsers || []);
                 
@@ -36,7 +36,7 @@ function Situation({ rankingId: rankingIdProp }) {
                 (teamsWithMembers || []).forEach(team => {
                     const ruTeams = team?.ranking_user_team || [];
                     ruTeams.forEach(entry => {
-                        const ru = entry?.ranking_user;
+                        const ru = entry?.ranking_user_view;
                         if (ru && ru.ranking_user_id) {
                             mapping[ru.ranking_user_id] = team.team_id;
                         }
@@ -69,7 +69,7 @@ function Situation({ rankingId: rankingIdProp }) {
                 setError("Selected user is not part of any team in this ranking");
                 return;
             }
-            await MatchService.createRankingMatch(effectiveRankingId, [teamId], 1, title, description);
+            await MatchServiceServer.createRankingMatch(effectiveRankingId, [teamId], 1, title, description);
             router.push(`/ranking/${effectiveRankingId}`);
         } catch (err) {
             console.error("Failed to create ranking", err);
