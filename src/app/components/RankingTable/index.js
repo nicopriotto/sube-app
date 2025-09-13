@@ -4,16 +4,15 @@ import "./rankingtable.css"
 import Link from "next/link"
 import UserRow from "../UserRow"
 import SituationFeed from "../SituationFeed"
+import NotificationToggle from "@/app/components/NotificationToggle";
 
-function RankingTable({rankingId, title, description, users, situations, joined, rankingUserName}) {
+function RankingTable({rankingId, title, description, users, situations, joined, rankingUserId}) {
 
   return (
     <main className="main-content">
       <div className="ranking-header">
         <div className="ranking-header-content">
-          <div className={"flex"}><h1 className="ranking-title">{title}</h1>{ rankingUserName === "che" && <Link href={`/ranking/${rankingId}/notifications`} className="propose-situation-btn">
-              Notificaciones
-          </Link>}</div>
+          <div className={"flex"}><h1 className="ranking-title">{title}</h1> <NotificationToggle rankingId={rankingId} rankingUserId={rankingUserId}></NotificationToggle></div>
           <p className="ranking-subtitle">{description}</p>
         </div>
           <div className={"flex flex-col gap-1"}>

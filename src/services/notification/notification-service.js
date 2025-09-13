@@ -17,12 +17,7 @@ export async function unsubscribeRankingUser(rankingId, rankingUserId) {
     return NotificationPersistence.unsubscribeUser(rankingId, rankingUserId);
 }
 
-export async function sendNotification(rankingId, rankingUserId, title, body) {
-    const subscription = await NotificationPersistence.getRankingUserSubscription(rankingId, rankingUserId);
-    if (!subscription) {
-        throw new Error('No subscription available');
-    }
-
+async function webpushSend(subscription, title, body) {
     try {
         await webpush.sendNotification(
             subscription,
@@ -37,4 +32,23 @@ export async function sendNotification(rankingId, rankingUserId, title, body) {
         console.error('Error sending push notification:', error);
         return { success: false, error: 'Failed to send notification' };
     }
+}
+
+export async function sendNotification(rankingId, rankingUserId, title, body) {
+    const subscription = await NotificationPersistence.getRankingUserSubscription(rankingId, rankingUserId);
+    if (!subscription) {
+        throw new Error('No subscription available');
+    }
+
+    return webpushSend(subscription, title, body);
+}
+
+export async function sendRankingNotifications(ranking_id, title, body) {
+    NotificationPersistence.getRankingSubscriptions(ranking_id).then(subscriptions => {
+        if (subscriptions) {
+            subscriptions.forEach(subscription => {
+                webpushSend(subscription.subscription, title, body);
+            })
+        }
+    });
 }

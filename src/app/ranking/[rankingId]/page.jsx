@@ -5,16 +5,16 @@ import jwt from "jsonwebtoken";
 export default async function RankingPage({params}) {
     const {rankingId} = await params;
     const token = await getJoinedToken();
-    let rankingUserName;
+    let rankingUserId;
     if (token) {
         try {
-            rankingUserName = jwt.verify(token, process.env.JWT_SECRET)?.username;
+            rankingUserId = jwt.verify(token, process.env.JWT_SECRET)?.id;
         } catch {
             //await logoutAction();
             console.log("aura");
         }
     }
     return (
-      <RankingWrapper rankingId={rankingId} joined={!!token} rankingUserName={rankingUserName}/>
+      <RankingWrapper rankingId={rankingId} joined={!!token} rankingUserId={rankingUserId}/>
     );
 }

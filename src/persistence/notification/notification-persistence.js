@@ -23,10 +23,19 @@ export async function unsubscribeUser(ranking_id, ranking_user_id) {
 export async function getRankingUserSubscription(ranking_id, ranking_user_id) {
     const { data, error } = await supabaseServer
         .from('ranking_notification_subscription')
-        .select('subscription')
+        .select('subscription, ranking_user_id')
         .eq('ranking_id', ranking_id)
         .eq('ranking_user_id', ranking_user_id)
         .single()
 
     return data?.subscription
+}
+
+export async function getRankingSubscriptions(ranking_id) {
+    const { data, error } = await supabaseServer
+        .from('ranking_notification_subscription')
+        .select('subscription')
+        .eq('ranking_id', ranking_id)
+
+    return data
 }

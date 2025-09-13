@@ -5,7 +5,7 @@ import RankingTable from "@/app/components/RankingTable";
 import * as MatchServiceClient from "@/services/match/match-service.client";
 import LoadingSpinner from "@/app/components/LoadingSpinner/LoadingSpinner";
 
-export default function RankingWrapper({rankingId, joined, rankingUserName}) {
+export default function RankingWrapper({rankingId, joined, rankingUserId}) {
     const [ranking, setRanking] = useState(null);
     const [loading, setLoading] = useState(true);
 
@@ -69,7 +69,7 @@ export default function RankingWrapper({rankingId, joined, rankingUserName}) {
                                 users={standings}
                                 situations={situations}
                                 joined={joined}
-                                rankingUserName={rankingUserName}
+                                rankingUserId={rankingUserId}
                             />
                         </>
                     )}

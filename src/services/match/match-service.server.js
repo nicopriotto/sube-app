@@ -1,15 +1,20 @@
 "use server"
 import * as MatchPersistenceServer from "@/persistence/match/match-persistence.server";
+import * as NotificationService from "@/services/notification/notification-service";
 import * as TeamServiceServer from "@/services/team/team-service.server";
 import * as RankingPersistenceClient from "@/persistence/ranking/ranking-persistence.client";
 import {RankingTypes} from "@/persistence/ranking/types";
 
 export async function createRankingMatch(ranking_id, team_ids, team_limit, title, description) {
+    const ranking = await RankingPersistenceClient.getRankingConfigurationById(ranking_id);
     const match = await MatchPersistenceServer.createMatch(ranking_id, team_limit, title, description)
     const matchId = match.match_id;
     const joinPromises = []
     team_ids.forEach(team_id => joinPromises.push(MatchPersistenceServer.joinMatch(matchId, team_id)));
     await Promise.all(joinPromises);
+    if (ranking?.type === RankingTypes.VOTE) {
+        NotificationService.sendRankingNotifications(ranking_id,`${ranking.ranking_name}: nueva situación para votar!`, title)
+    }
     return matchId;
 }
 
