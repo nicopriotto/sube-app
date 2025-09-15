@@ -12,7 +12,7 @@ function RankingTable({rankingId, title, description, users, situations, joined,
     <main className="main-content">
       <div className="ranking-header">
         <div className="ranking-header-content">
-          <div className={"flex"}><h1 className="ranking-title">{title}</h1> <NotificationToggle rankingId={rankingId} rankingUserId={rankingUserId}></NotificationToggle></div>
+          <div className={"flex items-center gap-2"}><h1 className="ranking-title">{title}</h1> <NotificationToggle rankingId={rankingId} rankingUserId={rankingUserId}></NotificationToggle></div>
           <p className="ranking-subtitle">{description}</p>
         </div>
           <div className={"flex flex-col gap-1"}>

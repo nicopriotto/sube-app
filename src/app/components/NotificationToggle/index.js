@@ -9,22 +9,14 @@ import { Bell } from "lucide-react";
 export default function NotificationToggle({ rankingId, rankingUserId }) {
     const [isSupported, setIsSupported] = useState(false);
     const [allowNotifications, setAllowNotifications] = useState(false);
-    const [subscription, setSubscription] = useState(null);
-
-    async function registerServiceWorker() {
-        const registration = await navigator.serviceWorker.register('/sw.js', {
-            scope: '/',
-            updateViaCache: 'none',
-        });
-        const sub = await registration.pushManager.getSubscription();
-        setSubscription(sub);
-        setAllowNotifications(!!sub);
-    }
 
     useEffect(() => {
         if ('serviceWorker' in navigator && 'PushManager' in window) {
-            setIsSupported(true);
-            registerServiceWorker();
+            navigator.serviceWorker.ready.then(async (registration) => {
+                setIsSupported(true);
+                const sub = await registration.pushManager.getSubscription();
+                setAllowNotifications(!!sub);
+            });
         }
     }, []);
 
@@ -37,23 +29,23 @@ export default function NotificationToggle({ rankingId, rankingUserId }) {
                 process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY
             ),
         });
-        setSubscription(sub);
         await NotificationService.subscribeRankingUser(rankingId, rankingUserId, sub.toJSON());
     }
 
     async function unsubscribeFromPush() {
+        const registration = await navigator.serviceWorker.ready;
+        const subscription = await registration.pushManager.getSubscription();
         await subscription?.unsubscribe();
-        setSubscription(null);
         await NotificationService.unsubscribeRankingUser(rankingId, rankingUserId);
     }
 
     async function toggleSubscription() {
         if (allowNotifications) {
-            await unsubscribeFromPush();
             setAllowNotifications(false);
+            await unsubscribeFromPush();
         } else {
-            await subscribeToPush();
             setAllowNotifications(true);
+            await subscribeToPush();
         }
     }
 

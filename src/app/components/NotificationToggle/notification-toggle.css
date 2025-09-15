@@ -5,11 +5,16 @@
     background: #ffffff;
     border: 2px solid #2563eb;
     border-radius: 12px;
-    width: 48px;
-    height: 48px;
+    width: 36px;
+    height: 36px;
+    padding: 6px;
     cursor: pointer;
     transition: background 0.2s, box-shadow 0.2s ease;
     box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+.outline {
+    outline: none;
 }
 
 .notification-button:hover {
