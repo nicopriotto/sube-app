@@ -4,6 +4,7 @@ import Navbar from "./components/Navbar"
 import Breadcrumbs from "./components/Breadcrumbs"
 import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
+import ServiceWorker from "@/app/components/ServiceWorker";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -66,6 +67,7 @@ export default async function RootLayout({ children }) {
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <Navbar joined={joined} username={username} />
         <Breadcrumbs />
+        <ServiceWorker/>
         {children}
       </body>
     </html>
