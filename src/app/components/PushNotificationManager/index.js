@@ -40,12 +40,11 @@ export default function PushNotificationManager({rankingId, rankingUserId}) {
     async function unsubscribeFromPush() {
         await subscription?.unsubscribe();
         setSubscription(null);
-        await NotificationService.unsubscribeRankingUser(rankingId, rankingUserId);
     }
 
     async function sendTestNotification() {
         if (subscription) {
-            await NotificationService.sendNotification(rankingId, rankingUserId, "test", "testing");
+            await NotificationService.sendRankingNotifications(rankingId, "test", "testing");
             setMessage('');
         }
     }

@@ -13,41 +13,38 @@ export async function subscribeRankingUser(rankingId, rankingUserId, subscriptio
     return NotificationPersistence.subscribeRankingUser(rankingId, rankingUserId, subscription);
 }
 
-export async function unsubscribeRankingUser(rankingId, rankingUserId) {
-    return NotificationPersistence.unsubscribeUser(rankingId, rankingUserId);
+export async function removeSubscription(rankingSubscriptionId) {
+    return NotificationPersistence.removeSubscription(rankingSubscriptionId);
 }
 
-async function webpushSend(subscription, title, body) {
+async function webpushSend(subscription, title, body, url, rankingSubscriptionId) {
     try {
+        console.log('webpush send ', subscription, title, body, url);
         await webpush.sendNotification(
             subscription,
             JSON.stringify({
                 title: title,
                 body: body,
                 icon: '/icon.png',
+                url: url,
             })
         );
         return { success: true };
     } catch (error) {
         console.error('Error sending push notification:', error);
+        if (error.statusCode === 410 || error.statusCode === 404) {
+            console.log('Deleting expired/unsubscribed push subscription:', rankingSubscriptionId);
+            await removeSubscription(rankingSubscriptionId);
+        }
         return { success: false, error: 'Failed to send notification' };
     }
 }
 
-export async function sendNotification(rankingId, rankingUserId, title, body) {
-    const subscription = await NotificationPersistence.getRankingUserSubscription(rankingId, rankingUserId);
-    if (!subscription) {
-        throw new Error('No subscription available');
-    }
-
-    return webpushSend(subscription, title, body);
-}
-
-export async function sendRankingNotifications(ranking_id, title, body) {
-    NotificationPersistence.getRankingSubscriptions(ranking_id).then(subscriptions => {
+export async function sendRankingNotifications(rankingId, title, body, url) {
+    NotificationPersistence.getRankingSubscriptions(rankingId).then(subscriptions => {
         if (subscriptions) {
             subscriptions.forEach(subscription => {
-                webpushSend(subscription.subscription, title, body);
+                webpushSend(subscription.subscription, title, body, url, subscription.ranking_subscription_id);
             })
         }
     });
