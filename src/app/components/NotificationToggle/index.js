@@ -22,21 +22,25 @@ export default function NotificationToggle({ rankingId, rankingUserId }) {
 
 
     async function subscribeToPush() {
-        const registration = await navigator.serviceWorker.ready;
-        const sub = await registration.pushManager.subscribe({
-            userVisibleOnly: true,
-            applicationServerKey: urlBase64ToUint8Array(
-                process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY
-            ),
-        });
-        await NotificationService.subscribeRankingUser(rankingId, rankingUserId, sub.toJSON());
+        try {
+            const registration = await navigator.serviceWorker.ready;
+            const sub = await registration.pushManager.subscribe({
+                userVisibleOnly: true,
+                applicationServerKey: urlBase64ToUint8Array(
+                    process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY
+                ),
+            });
+            await NotificationService.subscribeRankingUser(rankingId, rankingUserId, sub.toJSON());
+        } catch (error) {
+            console.error(error);
+            setAllowNotifications(false)
+        }
     }
 
     async function unsubscribeFromPush() {
         const registration = await navigator.serviceWorker.ready;
         const subscription = await registration.pushManager.getSubscription();
         await subscription?.unsubscribe();
-        await NotificationService.unsubscribeRankingUser(rankingId, rankingUserId);
     }
 
     async function toggleSubscription() {
